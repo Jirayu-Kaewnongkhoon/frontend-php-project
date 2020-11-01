@@ -1,25 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Login from './pages/Login';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import JobRequestForm from './pages/JobRequestForm';
+import JobList from './pages/JobList';
+import { authenticationService } from './services/authenticationService';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
 
 function App() {
+
+  const currentUser = authenticationService.currentUserValue;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Router>
+        <Switch>
+
+          <Route path='/login' component={Login} />
+          <Route path='/' exact component={Home} />
+          
+          {
+            currentUser && currentUser.role_name === "User" && 
+              <Route path='/job-request' component={JobRequestForm} />
+          }
+
+          {
+            currentUser && (currentUser.role_name === "Head" || currentUser.role_name === "Staff") && 
+              <Route path='/job-list' component={JobList} />
+          }
+
+          <Route component={NotFound} />
+          
+        </Switch>
+      </Router>
   );
 }
 

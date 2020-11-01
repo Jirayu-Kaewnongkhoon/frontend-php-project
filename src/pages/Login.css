@@ -1,0 +1,33 @@
+.root {
+    height: 100vh;
+}
+
+.image {
+    background-image: url(https://source.unsplash.com/random);
+    background-repeat: no-repeat;
+    /* background-color:
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900]; */
+    background-size: cover;
+    background-position: center;
+}
+
+.paper {
+    margin: 8vh, 4vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar {
+    margin: 1vh;
+    /* background-color: theme.palette.secondary.main; */
+  }
+
+.form {
+    width: 100%;
+    margin-top: 1vh;
+}
+
+.submit {
+    margin: 3vh, 0vh, 2vh;
+}
