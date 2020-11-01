@@ -55,9 +55,17 @@ function JobRequestForm() {
     const onSubmitClick = (e) => {
         e.preventDefault();
         console.log("jobRequest => ", jobRequest);
-        const formData = new FormData()
-        formData.append('image', jobRequest.image)
-        axios.post("http://localhost:4000/uploadFile.php", formData)
+
+        const formData = new FormData();
+        formData.append('requester_id', currentUser.user_id);
+        formData.append('building', jobRequest.buildingName);
+        formData.append('floor', jobRequest.floor);
+        formData.append('room', jobRequest.room);
+        formData.append('description', jobRequest.description);
+        formData.append('pre_image_path', jobRequest.image);
+
+
+        axios.post("https://database-php-project.000webhostapp.com/saveJobRequest.php", formData)
             .then(res => console.log(res))
             .catch(err => console.log(err))
         setJobRequest({

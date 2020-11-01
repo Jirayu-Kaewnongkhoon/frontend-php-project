@@ -1,11 +1,14 @@
-import React, { /* useEffect */ } from 'react'
+import React, { useEffect } from 'react'
 import { authenticationService } from '../services/authenticationService';
 import { Link } from 'react-router-dom';
 // import { createBrowserHistory } from 'history';
+import axios from 'axios';
+import JobItem from '../components/JobItem';
 
 function JobList() {
 
     const currentUser = authenticationService.currentUserValue;
+    const [jobList, setJobList] = React.useState([]);
     // const history = createBrowserHistory({ forceRefresh: true });
 
     // useEffect(() => {
@@ -13,6 +16,15 @@ function JobList() {
     //         history.push('/login');
     //     }
     // }, [])
+
+    useEffect(() => {
+        axios.get("https://database-php-project.000webhostapp.com/getJobRequest.php")
+            .then(res => {
+                console.log("job => ", res);
+                setJobList(res.data);
+            })
+            .catch(err => console.log(err))
+    }, [])
 
     return (
         <div>
@@ -31,7 +43,8 @@ function JobList() {
 
             <hr />
 
-            JobList page
+            JobList page <br /><br />
+            {jobList.map((job, index) => <JobItem key={index} data={job} />)}
         </div>
     )
 }
