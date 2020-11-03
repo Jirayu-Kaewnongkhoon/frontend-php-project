@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { authenticationService } from '../services/authenticationService';
 
 
 const useStyles = makeStyles(() => ({
@@ -26,6 +27,7 @@ const useStyles = makeStyles(() => ({
 function JobItem(props) {
 
     const classes = useStyles();
+    const currentUser = authenticationService.currentUserValue;
 
     return (
         <Grid item xs={12} sm={6} md={4}>
@@ -33,14 +35,14 @@ function JobItem(props) {
                 <CardMedia
                     className={classes.cardMedia}
                     image={props.data.pre_image_path}
-                    title="Image title"
+                    title={props.data.description}
                 />
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                         {props.data.description}
                     </Typography>
                     <Typography>
-                        This is a media card. You can use this section to describe the content.
+                        {`Status: ${props.data.job_status_id}`}
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -48,7 +50,8 @@ function JobItem(props) {
                         View
                     </Button>
                     <Button size="small" color="primary">
-                        Assign
+                        { currentUser && currentUser.role_name === "Head" && "Assign" }
+                        { currentUser && currentUser.role_name === "Staff" && "Update" }
                     </Button>
                 </CardActions>
             </Card>

@@ -50,8 +50,6 @@ function JobRequestForm() {
         description: ''
     });
 
-    const [image, setImage] = React.useState();
-
     const onSubmitClick = (e) => {
         e.preventDefault();
         console.log("jobRequest => ", jobRequest);
@@ -65,7 +63,7 @@ function JobRequestForm() {
         formData.append('pre_image_path', jobRequest.image);
 
 
-        axios.post("https://database-php-project.000webhostapp.com/saveJobRequest.php", formData)
+        axios.post("https://database-php-project.000webhostapp.com/api/JobServices/createJobRequest.php", formData)
             .then(res => console.log(res))
             .catch(err => console.log(err))
         setJobRequest({
@@ -165,15 +163,7 @@ function JobRequestForm() {
                         <button type='submit' >Submit</button>
 
                     </form>
-                    <button
-                        onClick={() => axios.get("http://localhost:4000/send.php")
-                            .then(res => {console.log(res); setImage(res.data?.[0].image)})}
-                    >
-                        show image
-                    </button>
-                    <br />
-                    <img src={image} alt='img' width="500px" />
-                    {/* {image} */}
+                    
                 </div>
             }
         </div>
