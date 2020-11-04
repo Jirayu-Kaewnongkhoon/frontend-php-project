@@ -16,7 +16,7 @@ function App() {
 
   return (
       <Router>
-        <HomeWithSideBar>
+        <HomeWithSideBar />
           <Switch>
 
             <Route path='/login' component={Login} />
@@ -39,7 +39,7 @@ function App() {
             <Route component={NotFound} />
             
           </Switch>
-        </HomeWithSideBar>
+          
       </Router>
   );
 }

@@ -1,88 +1,70 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Drawer from '@material-ui/core/Drawer';
 import { authenticationService } from '../services/authenticationService';
 import { createBrowserHistory } from 'history';
 import { allMenu } from '../constants/menu';
+import { Link } from 'react-router-dom';
 
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
-    },
-    drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
-    },
-    appBar: {
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-        },
+        flexGrow: 1,
     },
     menuButton: {
         marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
-    },
-    link: {
-        color: 'black',
-        textDecoration: 'none'
     },
     title: {
         flexGrow: 1,
     },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-        width: drawerWidth,
+    list: {
+        width: 250,
     },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
+    link: {
+        color: 'black',
+        textDecoration: 'none'
+    }
 }));
 
-function HomeWithSideBar(props) {
-    const { window } = props;
+function HomeWithSideBar() {
     const classes = useStyles();
-    const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
     const history = createBrowserHistory({ forceRefresh: true });
+    const currentUser = authenticationService.currentUserValue;
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
+    const [open, setOpen] = React.useState(false);
+
+    const toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        setOpen(open);
     };
 
-    const drawer = (
-        <div>
-            <div className={classes.toolbar} />
-            <Divider />
+    const list = (
+        <div
+            className={classes.list}
+            role="presentation"
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+        >
             <List>
                 {allMenu.map((menu, index) => (
-                    <Link to={`/${menu.url}`} key={menu.url} className={classes.link} >
-                        <ListItem button >
+                    <Link key={menu.url} to={`/${menu.url}`} className={classes.link} >
+                        <ListItem button>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                             <ListItemText primary={menu.label} />
                         </ListItem>
@@ -101,81 +83,42 @@ function HomeWithSideBar(props) {
         </div>
     );
 
-    const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        className={classes.menuButton}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap className={classes.title} >
-                        Responsive drawer
-                    </Typography>
-                    <Button
-                        color="inherit"
-                        onClick={() => {
-                            authenticationService.logout();
-                            history.push('/login');
-                        }}
-                    >
-                        Logout
-                    </Button>
-                </Toolbar>
-            </AppBar>
-            <nav className={classes.drawer} aria-label="mailbox folders">
-                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                <Hidden smUp implementation="css">
-                    <Drawer
-                        container={container}
-                        variant="temporary"
-                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                        open={mobileOpen}
-                        onClose={handleDrawerToggle}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        ModalProps={{
-                            keepMounted: true, // Better open performance on mobile.
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
-                </Hidden>
-                <Hidden xsDown implementation="css">
-                    <Drawer
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
-                        variant="permanent"
-                        open
-                    >
-                        {drawer}
-                    </Drawer>
-                </Hidden>
-            </nav>
-            <main className={classes.content} >
-                <div className={classes.toolbar} />
-                {props.children}
-            </main>
+        <div>
+            {
+                currentUser &&
+                <div>
+                    <div className={classes.root}>
+                        <AppBar position="static">
+                            <Toolbar>
+                                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)} >
+                                    <MenuIcon />
+                                </IconButton>
+                                <Typography variant="h6" className={classes.title}>
+                                    News
+                                </Typography>
+                                <Button 
+                                    color="inherit"
+                                    onClick={() => {
+                                        authenticationService.logout();
+                                        history.push('/login');
+                                    }}
+                                >
+                                    Logout
+                                </Button>
+                            </Toolbar>
+                        </AppBar>
+                    </div>
+                    <div>
+                        <Drawer anchor={'left'} open={open} onClose={toggleDrawer(false)}>
+                            {list}
+                        </Drawer>
+                    </div>
+                </div>
+            }
         </div>
     );
 }
-
-HomeWithSideBar.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
-    window: PropTypes.func,
-};
 
 export default HomeWithSideBar;

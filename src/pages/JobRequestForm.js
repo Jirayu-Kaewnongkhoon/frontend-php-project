@@ -1,16 +1,11 @@
-import React, { /* useEffect */ } from 'react'
+import React from 'react'
 import { authenticationService } from '../services/authenticationService';
-import { Link } from 'react-router-dom';
-// import { createBrowserHistory } from 'history';
 
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core';
 import axios from 'axios';
 
 const useStyles = makeStyles({
-    root: {
-
-    },
     inputDetail: {
         marginTop: '8px',
         backgroundColor: '#ffffff',
@@ -33,14 +28,6 @@ function JobRequestForm() {
 
     const classes = useStyles();
     const currentUser = authenticationService.currentUserValue;
-    // const history = createBrowserHistory({ forceRefresh: true });
-
-    // useEffect(() => {
-    //     console.log("req");
-    //     if (!currentUser) {
-    //         history.push('/login');
-    //     }
-    // }, [])
 
     const [jobRequest, setJobRequest] = React.useState({
         image: '',
@@ -79,21 +66,6 @@ function JobRequestForm() {
             {
                 currentUser &&
                 <div>
-                    <div>
-                        <h2>Name : {currentUser.user_name}</h2>
-                        <h2>Your role is : "{currentUser.role_name}"</h2>
-                        <Link to={'/login'} >
-                            <button
-                                type="button"
-                                onClick={() => authenticationService.logout()}
-                            >
-                                Log out
-                        </button>
-                        </Link>
-                    </div>
-
-                    <hr />
-
                     <form onSubmit={onSubmitClick} >
 
                         <label>
