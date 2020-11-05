@@ -1,9 +1,10 @@
 import React from 'react'
-import { authenticationService } from '../services/authenticationService';
-
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { makeStyles } from '@material-ui/core';
-import axios from 'axios';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+
+import { authenticationService } from '../services/authenticationService';
+import { jobService } from '../services/jobService';
+
 
 const useStyles = makeStyles({
     inputDetail: {
@@ -41,18 +42,17 @@ function JobRequestForm() {
         e.preventDefault();
         console.log("jobRequest => ", jobRequest);
 
-        const formData = new FormData();
-        formData.append('requester_id', currentUser.user_id);
-        formData.append('building', jobRequest.buildingName);
-        formData.append('floor', jobRequest.floor);
-        formData.append('room', jobRequest.room);
-        formData.append('description', jobRequest.description);
-        formData.append('pre_image_path', jobRequest.image);
-
-
-        axios.post("https://database-php-project.000webhostapp.com/api/JobServices/createJobRequest.php", formData)
-            .then(res => console.log(res))
+        jobService.createJobRequest(
+            currentUser.user_id, 
+            jobRequest.buildingName, 
+            jobRequest.floor, 
+            jobRequest.room, 
+            jobRequest.description, 
+            jobRequest.image
+        )
+            .then(res => console.log(res?.[0].message))
             .catch(err => console.log(err))
+
         setJobRequest({
             buildingName: '',
             room: '',

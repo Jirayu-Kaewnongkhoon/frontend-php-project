@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { authenticationService } from '../services/authenticationService';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles(() => ({
@@ -49,10 +50,12 @@ function JobItem(props) {
                     <Button size="small" color="primary">
                         View
                     </Button>
-                    <Button size="small" color="primary">
-                        { currentUser && currentUser.role_name === "Head" && "Assign" }
-                        { currentUser && currentUser.role_name === "Staff" && "Update" }
-                    </Button>
+                    <Link to={`/job-list/assign/${props.data.job_id}`} >
+                        <Button size="small" color="primary" onClick={() => props.onAssignClick(props.data.job_id)} >
+                            { currentUser && currentUser.role_name === "Head" && "Assign" }
+                            { currentUser && currentUser.role_name === "Staff" && "Update" }
+                        </Button>
+                    </Link>
                 </CardActions>
             </Card>
         </Grid>

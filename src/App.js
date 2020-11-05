@@ -31,8 +31,8 @@ function App() {
             {
               currentUser && (currentUser.role_name === "Head" || currentUser.role_name === "Staff") && 
                 <>
-                  <Route path='/job-list' component={JobList} />
-                  <Route path='/assign' component={Assign} />
+                  <Route path='/job-list' exact component={JobList} />
+                  <Route path='/job-list/assign/:job_id' component={Assign} />
                 </>
             }
 
