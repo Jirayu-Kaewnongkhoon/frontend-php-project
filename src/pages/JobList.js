@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import axios from 'axios';
 import JobItem from '../components/JobItem';
 
 // job list template
@@ -7,6 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { authenticationService } from '../services/authenticationService';
+import { jobService } from '../services/jobService';
+import Assign from '../components/Assign';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,38 +30,61 @@ const useStyles = makeStyles((theme) => ({
 function JobList() {
 
     const classes = useStyles();
+    const currentUser = authenticationService.currentUserValue;
 
     const [jobList, setJobList] = React.useState([]);
     const [isLoad, setLoad] = React.useState(true);
 
     useEffect(() => {
-        axios.get("https://database-php-project.000webhostapp.com/api/JobServices/getJobRequest.php")
-            .then(res => {
-                console.log("job => ", res);
-                setJobList(res.data.data);
+        jobService.getJobRequest(currentUser.user_id)
+            .then(data => {
+                setJobList(data);
                 setLoad(false);
             })
             .catch(err => console.log(err))
-    }, [])
+    }, [currentUser.user_id])
+
+    const [assign, setAssign] = React.useState(false);
+    const [selectedJob, setSelectedJob] = React.useState({});
+
+    const onAssignClick = (job_id) => {
+
+        jobList.forEach(job => {
+            if (job.job_id === job_id) {
+                setSelectedJob(job);
+                return;
+            }
+        })
+        
+        setAssign(true);
+    }
 
     return (
         <React.Fragment>
-            <main>
-                <Container className={classes.cardGrid} maxWidth="md">
-                    {
-                        !isLoad ?
-                        <Grid container spacing={4}>
-                            {jobList.map((job, index) => (
-                                <JobItem key={index} data={job} />
-                            ))}
-                        </Grid>
-                        :
-                        <div style={{textAlign: 'center'}} >
-                            <CircularProgress />
-                        </div>
-                    }
-                </Container>
-            </main>
+            {   !assign &&
+                <main>
+                    <Container className={classes.cardGrid} maxWidth="md">
+                        {
+                            !isLoad ? 
+                                jobList.length !== 0 ?
+                                <Grid container spacing={4}>
+                                    {jobList.map((job, index) => (
+                                        <JobItem key={index} data={job} onAssignClick={onAssignClick} />
+                                    ))}
+                                </Grid>
+                                : 
+                                <h2 style={{textAlign: 'center', color: 'gray'}} >
+                                    No Job Found
+                                </h2>
+                            :
+                            <div style={{textAlign: 'center'}} >
+                                <CircularProgress />
+                            </div>
+                        }
+                    </Container>
+                </main>
+            }
+            {assign && <Assign data={selectedJob} />}
         </React.Fragment>
     )
 }

@@ -13,14 +13,15 @@ export const authenticationService = {
 };
 
 function login(username, password) {
+    
     const formData = new FormData()
-    formData.append('username', username);
+    formData.append('user_name', username);
     formData.append('password', password);
 
-    return axios.post('https://database-php-project.000webhostapp.com/login.php', formData)
+    return axios.post('https://database-php-project.000webhostapp.com/api/UserServices/getUser.php', formData)
         .then(response => {
-            console.log("response: ", response.data?.[0])
-            const user = response.data?.[0];
+            console.log("response: ", response)
+            const user = response.data.data?.[0];
             if (user) {
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 // console.log(user)
