@@ -22,6 +22,10 @@ const useStyles = makeStyles(() => ({
     },
     cardContent: {
         flexGrow: 1,
+    },
+    link: {
+        textDecoration: 'none',
+        color: 'black'
     }
 }));
 
@@ -50,7 +54,7 @@ function JobItem(props) {
                     <Button size="small" color="primary">
                         View
                     </Button>
-                    <Link to={`/job-list/assign/${props.data.job_id}`} >
+                    <Link to={`/job-list/assign/${props.data.job_id}`} className={classes.link} >
                         <Button size="small" color="primary" onClick={() => props.onAssignClick(props.data.job_id)} >
                             { currentUser && currentUser.role_name === "Head" && "Assign" }
                             { currentUser && currentUser.role_name === "Staff" && "Update" }

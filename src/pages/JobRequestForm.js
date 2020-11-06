@@ -1,12 +1,25 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import { authenticationService } from '../services/authenticationService';
 import { jobService } from '../services/jobService';
+import ImageUpload from '../components/ImageUpload';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& .MuiTextField-root': {
+          margin: theme.spacing(1),
+          width: '25ch',
+        },
+        marginTop: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
     inputDetail: {
         marginTop: '8px',
         backgroundColor: '#ffffff',
@@ -23,7 +36,11 @@ const useStyles = makeStyles({
         borderColor: '#c4c4c4',
         fontSize: '16px'
     },
-});
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+        width: '50%',
+    },
+}));
 
 function JobRequestForm() {
 
@@ -53,11 +70,19 @@ function JobRequestForm() {
             .then(res => console.log(res?.[0].message))
             .catch(err => console.log(err))
 
+    }
+
+    const handleUpload = (imageValue) => {
         setJobRequest({
-            buildingName: '',
-            room: '',
-            floor: '',
-            description: ''
+            ...jobRequest,
+            image: imageValue
+        });
+    }
+
+    const handleResetUpload = () => {
+        setJobRequest({
+            ...jobRequest,
+            image: ''
         });
     }
 
@@ -66,73 +91,55 @@ function JobRequestForm() {
             {
                 currentUser &&
                 <div>
-                    <form onSubmit={onSubmitClick} >
+                    <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmitClick} >
 
-                        <label>
-                            Image :
-                        <input
-                            type='file'
-                            accept="image/*"
-                            name='image'
-                            onChange={e => {
-                                const { name, files } = e.target;
-                                const reader = new FileReader();
-                                reader.readAsDataURL(files[0]);
+                        <ImageUpload onChange={handleUpload} onRemove={handleResetUpload} />
 
-                                reader.onload = (evt) => {
-                                    setJobRequest({ 
-                                        ...jobRequest, 
-                                        [name]: evt.target.result 
-                                    })
-                                }
-                                
-                            }} />
-                            <br />
-                        </label>
-
-                        <label>
-                            Building :
-                        <input
-                            type='text'
+                        <TextField
+                            required
+                            label="Building"
+                            variant="outlined"
                             name='buildingName'
-                            value={jobRequest.buildingName}
-                            onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} />
-                            <br />
-                        </label>
+                            onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                        />
+                        
+                        <div>
+                            <TextField
+                                required
+                                label="Room"
+                                variant="outlined"
+                                name='room'
+                                onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                            />
 
-                        <label>
-                            Room :
-                        <input
-                            type='text'
-                            name='room'
-                            value={jobRequest.room}
-                            onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} />
-                            <br />
-                        </label>
+                            <TextField
+                                required
+                                label="Floor"
+                                variant="outlined"
+                                name='floor'
+                                onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                            />
+                        </div>
 
-                        <label>
-                            Floor :
-                        <input
-                            type='text'
-                            name='floor'
-                            value={jobRequest.floor}
-                            onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} />
-                            <br />
-                        </label>
+                        <br />
 
-                        <label>
-                            Description :
                         <TextareaAutosize
                             name="description" 
                             aria-label="description" 
                             rowsMin={8}
-                            placeholder="รายละเอียดการแจ้งซ่อม..." 
+                            placeholder="Description..." 
                             className={classes.inputDetail}
-                            onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} />
-                            <br />
-                        </label>
+                            onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} 
+                        />
 
-                        <button type='submit' >Submit</button>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Submit
+                        </Button>
 
                     </form>
                     

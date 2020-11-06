@@ -7,6 +7,7 @@ import JobList from './pages/JobList';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Assign from './components/Assign';
+import UpdateStatus from './components/UpdateStatus';
 import History from './pages/History';
 import HomeWithSideBar from './components/HomeWithSideBar';
 
@@ -30,10 +31,17 @@ function App() {
 
             {
               currentUser && (currentUser.role_name === "Head" || currentUser.role_name === "Staff") && 
-                <>
-                  <Route path='/job-list' exact component={JobList} />
-                  <Route path='/job-list/assign/:job_id' component={Assign} />
-                </>
+                <Route path='/job-list' exact component={JobList} />
+            }
+
+            {
+              currentUser && currentUser.role_name === "Head" &&
+                <Route path='/job-list/assign/:job_id' children={Assign} />
+            }
+
+            {
+              currentUser && currentUser.role_name === "Staff" &&
+                <Route path='/job-list/update/:job_id' children={UpdateStatus} />
             }
 
             <Route component={NotFound} />
