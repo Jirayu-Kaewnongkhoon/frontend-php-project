@@ -36,12 +36,12 @@ function App() {
 
             {
               currentUser && currentUser.role_name === "Head" &&
-                <Route path='/job-list/assign/:job_id' children={Assign} />
+                <Route path='/job-list/assign/:job_id' component={Assign} />
             }
 
             {
               currentUser && currentUser.role_name === "Staff" &&
-                <Route path='/job-list/update/:job_id' children={UpdateStatus} />
+                <Route path='/job-list/update/:job_id' component={UpdateStatus} />
             }
 
             <Route component={NotFound} />

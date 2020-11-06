@@ -5,7 +5,8 @@ export const jobService = {
     createJobRequest,
     createJobAssignment,
     getJobAssignment,
-
+    getJobById,
+    
 };
 
 function getJobRequest(user_id) {
@@ -50,6 +51,14 @@ function getJobAssignment(user_id) {
     return axios.get(`https://database-php-project.000webhostapp.com/api/JobServices/getJobAssignment.php?user_id=${user_id}`)
         .then(response => {
             console.log("getJobAssignment => ", response);
+            return response.data.data
+        })
+}
+
+function getJobById(job_id) {
+    return axios.get(`https://database-php-project.000webhostapp.com/api/JobServices/getJobById.php?job_id=${job_id}`)
+        .then(response => {
+            console.log("getJobById => ", response);
             return response.data.data
         })
 }
