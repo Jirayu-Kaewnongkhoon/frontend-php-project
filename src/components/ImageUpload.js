@@ -42,7 +42,7 @@ class ImageUploadCard extends React.Component {
             this.setState({
                 selectedFile: [reader.result]
             });
-            this.props.onChange(reader.result);
+            // this.props.onChange(reader.result);
         }.bind(this);
         console.log(url); // Would see a path?
 
@@ -51,6 +51,7 @@ class ImageUploadCard extends React.Component {
             selectedFile: event.target.files[0],
             imageUploaded: 1
         });
+        this.props.onChange(event.target.files[0]);
     };
 
 

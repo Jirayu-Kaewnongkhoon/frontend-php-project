@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
+// const url = "https://database-php-project.000webhostapp.com"
+const url = "http://localhost/backend-php-project"
+
 export const authenticationService = {
     login,
     logout,
@@ -18,7 +21,7 @@ function login(username, password) {
     formData.append('user_name', username);
     formData.append('password', password);
 
-    return axios.post('https://database-php-project.000webhostapp.com/api/UserServices/getUser.php', formData)
+    return axios.post(`${url}/api/UserServices/getUser.php`, formData)
         .then(response => {
             console.log("response: ", response)
             const user = response.data.data?.[0];

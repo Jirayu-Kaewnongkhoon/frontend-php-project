@@ -48,7 +48,8 @@ function JobRequestForm() {
     const currentUser = authenticationService.currentUserValue;
 
     const [jobRequest, setJobRequest] = React.useState({
-        image: '',
+        image: null,
+        // image: '',
         buildingName: '',
         room: '',
         floor: '',
@@ -82,7 +83,8 @@ function JobRequestForm() {
     const handleResetUpload = () => {
         setJobRequest({
             ...jobRequest,
-            image: ''
+            image: null
+            // image: ''
         });
     }
 
