@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// const url = "https://database-php-project.000webhostapp.com"
+const url = "http://localhost/backend-php-project"
+
 export const jobService = {
     getJobRequest,
     createJobRequest,
@@ -10,7 +13,7 @@ export const jobService = {
 };
 
 function getJobRequest(user_id) {
-    return axios.get(`https://database-php-project.000webhostapp.com/api/JobServices/getJobRequest.php?user_id=${user_id}`)
+    return axios.get(`${url}/api/JobServices/getJobRequest.php?user_id=${user_id}`)
         .then(response => {
             console.log("getJobRequest => ", response);
             return response.data.data
@@ -27,7 +30,7 @@ function createJobRequest(requester_id, building, floor, room, description, pre_
     formData.append('description', description);
     formData.append('pre_image_path', pre_image_path);
 
-    return axios.post("https://database-php-project.000webhostapp.com/api/JobServices/createJobRequest.php", formData)
+    return axios.post(`${url}/api/JobServices/createJobRequest.php`, formData)
         .then(response => {
             console.log("createJobRequest => ", response);
             return response.data.data
@@ -40,7 +43,7 @@ function createJobAssignment(staff_id, job_id) {
     formData.append('staff_id', staff_id);
     formData.append('job_id', job_id);    
 
-    return axios.post("https://database-php-project.000webhostapp.com/api/JobServices/createJobAssignment.php", formData)
+    return axios.post(`${url}/api/JobServices/createJobAssignment.php`, formData)
         .then(response => {
             console.log("createJobAssignment => ", response);
             return response.data.data
@@ -48,7 +51,7 @@ function createJobAssignment(staff_id, job_id) {
 }
 
 function getJobAssignment(user_id) {
-    return axios.get(`https://database-php-project.000webhostapp.com/api/JobServices/getJobAssignment.php?user_id=${user_id}`)
+    return axios.get(`${url}/api/JobServices/getJobAssignment.php?user_id=${user_id}`)
         .then(response => {
             console.log("getJobAssignment => ", response);
             return response.data.data
@@ -56,7 +59,7 @@ function getJobAssignment(user_id) {
 }
 
 function getJobById(job_id) {
-    return axios.get(`https://database-php-project.000webhostapp.com/api/JobServices/getJobById.php?job_id=${job_id}`)
+    return axios.get(`${url}/api/JobServices/getJobById.php?job_id=${job_id}`)
         .then(response => {
             console.log("getJobById => ", response);
             return response.data.data
