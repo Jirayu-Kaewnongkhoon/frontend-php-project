@@ -55,7 +55,7 @@ function Assign({ match }) {
     };
 
     const onSubmitClick = () => {
-        jobService.createJobAssignment(currentUser.user_id, job.job_id)
+        jobService.createJobAssignment(selectedStaff, job.job_id)
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }
@@ -68,8 +68,9 @@ function Assign({ match }) {
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} >
                     {`Job ID: ${job.job_id}`} <br />
                     {`Description: ${job.description}`} <br />
+                    <img src={job.pre_image_path} alt='' width='500px' />
                     <FormControl variant="outlined" className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-outlined-label">Staff</InputLabel>
+                        <InputLabel>Staff</InputLabel>
                         <Select
                             value={selectedStaff}
                             onChange={handleChange}
