@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react'
-import JobItem from '../components/JobItem';
-
-// job list template
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import JobItem from '../components/JobItem';
 import { authenticationService } from '../services/authenticationService';
 import { jobService } from '../services/jobService';
-import Assign from '../components/Assign';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,55 +33,48 @@ function JobList() {
     const [isLoad, setLoad] = React.useState(true);
 
     useEffect(() => {
-        jobService.getJobRequest(currentUser.user_id)
-            .then(data => {
-                setJobList(data);
-                setLoad(false);
-            })
-            .catch(err => console.log(err))
-    }, [currentUser.user_id])
+        if (currentUser.role_name === 'Head') {
+            jobService.getJobRequest(currentUser.user_id)
+                .then(data => {
+                    setJobList(data);
+                    setLoad(false);
+                })
+                .catch(err => console.log(err))
+        }
 
-    const [assign, setAssign] = React.useState(false);
-    const [selectedJob, setSelectedJob] = React.useState({});
-
-    const onAssignClick = (job_id) => {
-
-        jobList.forEach(job => {
-            if (job.job_id === job_id) {
-                setSelectedJob(job);
-                return;
-            }
-        })
-        
-        setAssign(true);
-    }
+        if (currentUser.role_name === 'Staff') {
+            jobService.getJobAssignment(currentUser.user_id)
+                .then(data => {
+                    setJobList(data);
+                    setLoad(false);
+                })
+                .catch(err => console.log(err))
+        }
+    }, [currentUser.user_id, currentUser.role_name])
 
     return (
         <React.Fragment>
-            {   !assign &&
-                <main>
-                    <Container className={classes.cardGrid} maxWidth="md">
-                        {
-                            !isLoad ? 
-                                jobList.length !== 0 ?
-                                <Grid container spacing={4}>
-                                    {jobList.map((job, index) => (
-                                        <JobItem key={index} data={job} onAssignClick={onAssignClick} />
-                                    ))}
-                                </Grid>
-                                : 
-                                <h2 style={{textAlign: 'center', color: 'gray'}} >
-                                    No Job Found
-                                </h2>
-                            :
-                            <div style={{textAlign: 'center'}} >
-                                <CircularProgress />
-                            </div>
-                        }
-                    </Container>
-                </main>
-            }
-            {assign && <Assign data={selectedJob} />}
+            <main>
+                <Container className={classes.cardGrid} maxWidth="md">
+                    {
+                        !isLoad ? 
+                            jobList.length !== 0 ?
+                            <Grid container spacing={4}>
+                                {jobList.map((job, index) => (
+                                    <JobItem key={index} data={job} />
+                                ))}
+                            </Grid>
+                            : 
+                            <h2 style={{textAlign: 'center', color: 'gray'}} >
+                                No Job Found
+                            </h2>
+                        :
+                        <div style={{textAlign: 'center'}} >
+                            <CircularProgress />
+                        </div>
+                    }
+                </Container>
+            </main>
         </React.Fragment>
     )
 }

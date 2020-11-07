@@ -1,4 +1,3 @@
-import Assign from "../components/Assign";
 import History from "../pages/History";
 import JobList from "../pages/JobList";
 import JobRequestForm from "../pages/JobRequestForm";
@@ -21,11 +20,5 @@ export const allMenu = [
         url: 'history',
         role: ['User', 'Head', 'Staff'],
         component: History
-    },
-    {
-        label: 'Assign',
-        url: 'assign',
-        role: ['Head', 'Staff'],
-        component: Assign
     },
 ]

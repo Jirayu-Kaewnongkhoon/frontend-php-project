@@ -54,12 +54,23 @@ function JobItem(props) {
                     <Button size="small" color="primary">
                         View
                     </Button>
-                    <Link to={`/job-list/assign/${props.data.job_id}`} className={classes.link} >
-                        <Button size="small" color="primary" onClick={() => props.onAssignClick(props.data.job_id)} >
-                            { currentUser && currentUser.role_name === "Head" && "Assign" }
-                            { currentUser && currentUser.role_name === "Staff" && "Update" }
-                        </Button>
-                    </Link>
+                    {
+                        currentUser && currentUser.role_name === "Head" && 
+                        <Link to={`/job-list/assign/${props.data.job_id}`} className={classes.link} >
+                            <Button size="small" color="primary">
+                                Assign
+                            </Button>
+                        </Link>
+                    }
+
+                    {
+                        currentUser && currentUser.role_name === "Staff" && 
+                        <Link to={`/job-list/update/${props.data.job_id}`} className={classes.link} >
+                            <Button size="small" color="primary">
+                                Update
+                            </Button>
+                        </Link>
+                    }
                 </CardActions>
             </Card>
         </Grid>

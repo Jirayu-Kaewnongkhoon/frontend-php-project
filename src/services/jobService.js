@@ -9,7 +9,7 @@ export const jobService = {
     createJobAssignment,
     getJobAssignment,
     getJobById,
-    
+    updateJobStatus
 };
 
 function getJobRequest(user_id) {
@@ -62,6 +62,24 @@ function getJobById(job_id) {
     return axios.get(`${url}/api/JobServices/getJobById.php?job_id=${job_id}`)
         .then(response => {
             console.log("getJobById => ", response);
+            return response.data.data
+        })
+}
+
+function updateJobStatus(job_status_id, post_image_path, job_id) {
+
+    const formData = new FormData();
+    formData.append('job_status_id', job_status_id);
+    if (!post_image_path) {
+        formData.append("post_image_path", new File([], "null"));
+    } else {
+        formData.append("post_image_path", post_image_path);
+    }
+    formData.append('job_id', job_id); 
+
+    return axios.post(`${url}/api/JobServices/updateJobStatus.php`, formData)
+        .then(response => {
+            console.log("updateJobStatus => ", response);
             return response.data.data
         })
 }
