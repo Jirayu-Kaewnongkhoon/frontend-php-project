@@ -5,7 +5,6 @@ import Login from './pages/Login';
 import JobRequestForm from './pages/JobRequestForm';
 import JobList from './pages/JobList';
 import Home from './pages/Home';
-import NotFound from './pages/NotFound';
 import Assign from './components/Assign';
 import UpdateStatus from './components/UpdateStatus';
 import History from './pages/History';
@@ -44,7 +43,7 @@ function App() {
                 <Route path='/job-list/update/:job_id' component={UpdateStatus} />
             }
 
-            <Route component={NotFound} />
+            <Route path='*' component={() => <h2 style={{textAlign: 'center', color: 'gray'}} >404 NOT FOUND</h2> } />
             
           </Switch>
           

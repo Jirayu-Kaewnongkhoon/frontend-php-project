@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { authenticationService } from '../services/authenticationService';
 import { Link } from 'react-router-dom';
+import JobDetailPopup from './JobDetailPopup';
 
 
 const useStyles = makeStyles(() => ({
@@ -34,6 +35,15 @@ function JobItem(props) {
     const classes = useStyles();
     const currentUser = authenticationService.currentUserValue;
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Card className={classes.card}>
@@ -51,11 +61,14 @@ function JobItem(props) {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={handleClickOpen} >
                         View
                     </Button>
+
+                    { open && <JobDetailPopup handleClose={handleClose} open={open} jobID={props.data.job_id} /> }
+
                     {
-                        currentUser && currentUser.role_name === "Head" && 
+                        currentUser && currentUser.role_name === "Head" && props.path.includes('/job-list') &&
                         <Link to={`/job-list/assign/${props.data.job_id}`} className={classes.link} >
                             <Button size="small" color="primary">
                                 Assign
@@ -64,7 +77,7 @@ function JobItem(props) {
                     }
 
                     {
-                        currentUser && currentUser.role_name === "Staff" && 
+                        currentUser && currentUser.role_name === "Staff" && props.path.includes('/job-list') &&
                         <Link to={`/job-list/update/${props.data.job_id}`} className={classes.link} >
                             <Button size="small" color="primary">
                                 Update
