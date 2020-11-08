@@ -9,7 +9,8 @@ export const jobService = {
     createJobAssignment,
     getJobAssignment,
     getJobById,
-    updateJobStatus
+    updateJobStatus,
+    getJobHistory
 };
 
 function getJobRequest(user_id) {
@@ -80,6 +81,14 @@ function updateJobStatus(job_status_id, post_image_path, job_id) {
     return axios.post(`${url}/api/JobServices/updateJobStatus.php`, formData)
         .then(response => {
             console.log("updateJobStatus => ", response);
+            return response.data.data
+        })
+}
+
+function getJobHistory(user_id) {
+    return axios.get(`${url}/api/JobServices/getJobHistory.php?user_id=${user_id}`)
+        .then(response => {
+            console.log("getJobHistory => ", response);
             return response.data.data
         })
 }

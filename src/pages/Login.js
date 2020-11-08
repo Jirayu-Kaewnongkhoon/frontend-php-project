@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react'
-import { authenticationService } from '../services/authenticationService';
-import { createBrowserHistory } from 'history';
-
-// login template
+import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,7 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import swal from 'sweetalert';
+import { authenticationService } from '../services/authenticationService';
+import { createBrowserHistory } from 'history';
 
 // import './Login.css'
 
@@ -66,17 +65,43 @@ function Login() {
 
     const onSubmitClick = (e) => {
         e.preventDefault();
-        authenticationService.login(username, password)
-            .then(user => {
-                if (user.role_name === "User") {
-                    history.push('/job-request')
-                }
-
-                if (user.role_name === "Head" || user.role_name === "Staff") {
-                    history.push('/job-list')
-                }
+        if (username === '' || password === '') {
+            swal({
+                title: "Username and Password couldn't empty",
+                text: "Pleas try again",
+                icon: "error",
+                button: "Accept",
             })
-            .catch(err => console.log(err))
+        } else {
+            authenticationService.login(username, password)
+                .then(
+                    user => {
+                        swal({
+                            title: "Login Successful",
+                            icon: "success",
+                            button: "Accept",
+                        })
+                        .then(() => {
+                            if (user.role_name === "User") {
+                                history.push('/job-request')
+                            }
+    
+                            if (user.role_name === "Head" || user.role_name === "Staff") {
+                                history.push('/job-list')
+                            }
+                        })
+                    }
+                )
+                .catch(err => {
+                    console.log(err);
+                    swal({
+                        title: "Username or Password is incorrect",
+                        text: "Please try again",
+                        icon: "error",
+                        button: "Accept",
+                    })
+                })
+        }
     }
 
     return (
@@ -104,6 +129,7 @@ function Login() {
                                     name="username"
                                     autoComplete="username"
                                     autoFocus
+                                    value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
                                 <TextField
@@ -115,6 +141,7 @@ function Login() {
                                     label="Password"
                                     type="password"
                                     autoComplete="current-password"
+                                    value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <Grid container>
