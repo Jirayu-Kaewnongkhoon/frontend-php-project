@@ -68,7 +68,7 @@ function Login() {
         if (username === '' || password === '') {
             swal({
                 title: "Username and Password couldn't empty",
-                text: "Pleas try again",
+                text: "Please try again",
                 icon: "error",
                 button: "Accept",
             })

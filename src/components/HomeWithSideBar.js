@@ -52,7 +52,7 @@ function HomeWithSideBar() {
         setOpen(open);
     };
 
-    const list = (
+    const list = () => (
         <div
             className={classes.list}
             role="presentation"
@@ -60,7 +60,7 @@ function HomeWithSideBar() {
             onKeyDown={toggleDrawer(false)}
         >
             <List>
-                {primaryMenu.filter(menu => menu.role.includes(currentUser.role_name)).map((menu, index) => (
+                {primaryMenu.filter(menu => menu.role.includes(currentUser.role_name)).map(menu => (
                     <Link key={menu.url} to={`/${menu.url}`} className={classes.link} >
                         <ListItem button>
                             <ListItemIcon>{menu.icon}</ListItemIcon>
@@ -71,7 +71,7 @@ function HomeWithSideBar() {
             </List>
             <Divider />
             <List>
-                {secondaryMenu.map((menu, index) => (
+                {secondaryMenu.map(menu => (
                     <Link key={menu.url} to={`/${menu.url}`} className={classes.link} >
                         <ListItem button>
                             <ListItemIcon>{menu.icon}</ListItemIcon>
@@ -113,7 +113,7 @@ function HomeWithSideBar() {
                     </div>
                     <div>
                         <Drawer anchor={'left'} open={open} onClose={toggleDrawer(false)}>
-                            {list}
+                            {list()}
                         </Drawer>
                     </div>
                 </div>
