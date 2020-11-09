@@ -9,6 +9,7 @@ import Assign from './components/Assign';
 import UpdateStatus from './components/UpdateStatus';
 import History from './pages/History';
 import HomeWithSideBar from './components/HomeWithSideBar';
+import Reports from './pages/Reports';
 
 function App() {
 
@@ -41,6 +42,11 @@ function App() {
             {
               currentUser && currentUser.role_name === "Staff" &&
                 <Route path='/job-list/update/:job_id' component={UpdateStatus} />
+            }
+
+            {
+              currentUser && (currentUser.role_name === "Head" || currentUser.role_name === "Staff") && 
+                <Route path='/reports' exact component={Reports} />
             }
 
             <Route path='*' component={() => <h2 style={{textAlign: 'center', color: 'gray'}} >404 NOT FOUND</h2> } />

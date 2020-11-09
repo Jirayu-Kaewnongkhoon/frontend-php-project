@@ -10,7 +10,9 @@ export const jobService = {
     getJobAssignment,
     getJobById,
     updateJobStatus,
-    getJobHistory
+    getJobHistory,
+    getReports,
+    getLocationImage
 };
 
 function getJobRequest(user_id) {
@@ -91,4 +93,20 @@ function getJobHistory(user_id) {
             console.log("getJobHistory => ", response);
             return response.data.data
         })
+}
+
+function getReports() {
+    return axios.get(`${url}/api/JobServices/getReports.php`)
+        .then(response => {
+            console.log("getReports => ", response);
+            return response.data.data
+        })
+}
+
+function getLocationImage() {
+    return axios.get(`${url}/api/JobServices/getLocationImage.php`)
+    .then(response => {
+        // console.log("getLocationImage => ", response);
+        return response.data.data
+    })
 }

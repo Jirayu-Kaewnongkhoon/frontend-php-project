@@ -3,6 +3,7 @@ import History from "../pages/History";
 import JobList from "../pages/JobList";
 import JobRequestForm from "../pages/JobRequestForm";
 import Login from "../pages/Login";
+import Reports from '../pages/Reports';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import InfoIcon from '@material-ui/icons/Info';
 import ViewListIcon from '@material-ui/icons/ViewList';
@@ -37,7 +38,7 @@ export const primaryMenu = [
         icon: <AssessmentIcon />,
         url: 'reports',
         role: ['Head', 'Staff'],
-        component: History
+        component: Reports
     },
 ]
 
