@@ -12,7 +12,8 @@ export const jobService = {
     updateJobStatus,
     getJobHistory,
     getReports,
-    getLocationImage
+    getLocationImage,
+    getReportsPDF
 };
 
 function getJobRequest(user_id) {
@@ -109,4 +110,12 @@ function getLocationImage() {
         // console.log("getLocationImage => ", response);
         return response.data.data
     })
+}
+
+function getReportsPDF() {
+    return axios.get(`${url}/api/JobServices/getReportsPDF.php`)
+        .then(response => {
+            console.log("getReportsPDF => ", response);
+            return response.data
+        })
 }
