@@ -57,7 +57,7 @@ function JobItem(props) {
                         {props.data.description}
                     </Typography>
                     <Typography>
-                        {`Status: ${props.data.job_status_id}`}
+                        {`Status: ${props.data.job_status_name}`}
                     </Typography>
                 </CardContent>
                 <CardActions>

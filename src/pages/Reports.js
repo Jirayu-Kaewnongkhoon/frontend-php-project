@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -40,7 +41,7 @@ function Row(props) {
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
-                    <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+                    <IconButton size="small" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
@@ -79,7 +80,7 @@ function Row(props) {
                                 </Grid>
                                 <Grid item md={8} xs={6}>
                                     <Typography gutterBottom component="div">
-                                        {row.job_status_id}
+                                        {row.job_status_name}
                                     </Typography>
                                 </Grid>
 
@@ -103,7 +104,7 @@ function Row(props) {
                                 </Grid>
                                 <Grid item md={8} xs={6}>
                                     <Typography gutterBottom component="div">
-                                        {row.staff_id}
+                                        {row.staff_id === null ? 'ยังไม่ถูกมอบหมาย' : row.staff_id}
                                     </Typography>
                                 </Grid>
 
@@ -139,11 +140,25 @@ function Reports() {
         setPage(0);
     };
 
+    const handleDownloadClick = () => {
+        jobService.getReportsPDF()
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }
+
     return (
         <div style={{padding: 40}}>
             Reports page
+            <Grid container >
+                <Grid item xs={8} />
+                <Grid item xs={4} style={{textAlign: 'right'}} >
+                    <Button variant="contained" color="primary" onClick={handleDownloadClick} >
+                        Download PDF
+                    </Button>
+                </Grid>
+            </Grid>
             <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
+                <Table>
                     <TableHead>
                         <TableRow className={classes.head}>
                             <TableCell />
