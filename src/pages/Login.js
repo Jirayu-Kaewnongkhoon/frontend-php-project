@@ -54,11 +54,9 @@ function Login() {
 
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
-    // const [isLogin, setLogin] = React.useState(true);
 
     useEffect(() => {
         if (currentUser) {
-            // setLogin(false)
             history.push('/')
         }
     }, [currentUser, history])
@@ -69,38 +67,49 @@ function Login() {
             swal({
                 title: "Username and Password couldn't empty",
                 text: "Please try again",
-                icon: "error",
+                icon: "warning",
                 button: "Accept",
             })
         } else {
             authenticationService.login(username, password)
                 .then(
                     user => {
+                        if (typeof user !== 'undefined') {
+                            swal({
+                                title: "Login Successful",
+                                icon: "success",
+                                button: "Accept",
+                            })
+                            .then(() => {
+                                if (user.role_name === "User") {
+                                    history.push('/job-request')
+                                }
+        
+                                if (user.role_name === "Head" || user.role_name === "Staff") {
+                                    history.push('/job-list')
+                                }
+                            })
+                        } else {
+                            swal({
+                                title: "Username or Password is incorrect",
+                                text: "Please try again",
+                                icon: "error",
+                                button: "Accept",
+                            })
+                        }
+                    }
+                )
+                .catch(
+                    err => {
+                        console.log(err);
                         swal({
-                            title: "Login Successful",
-                            icon: "success",
+                            title: "Something went wrong",
+                            text: "Please try again",
+                            icon: "error",
                             button: "Accept",
-                        })
-                        .then(() => {
-                            if (user.role_name === "User") {
-                                history.push('/job-request')
-                            }
-    
-                            if (user.role_name === "Head" || user.role_name === "Staff") {
-                                history.push('/job-list')
-                            }
                         })
                     }
                 )
-                .catch(err => {
-                    console.log(err);
-                    swal({
-                        title: "Username or Password is incorrect",
-                        text: "Please try again",
-                        icon: "error",
-                        button: "Accept",
-                    })
-                })
         }
     }
 
