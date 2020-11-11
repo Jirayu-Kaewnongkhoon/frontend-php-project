@@ -17,7 +17,7 @@ function App() {
 
   return (
       <Router>
-        <HomeWithSideBar />
+        { currentUser && <HomeWithSideBar /> }
           <Switch>
 
             <Route path='/login' component={Login} />

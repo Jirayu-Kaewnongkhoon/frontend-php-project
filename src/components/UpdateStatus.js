@@ -5,6 +5,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import swal from 'sweetalert';
+import { createBrowserHistory } from 'history';
 import { jobService } from '../services/jobService';
 import ImageUpload from './ImageUpload';
 
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 function UpdateStatus({ match }) {
 
     const classes = useStyles();
+    const history = createBrowserHistory({ forceRefresh: true });
 
     const [status, setStatus] = React.useState('');
     const [job, setJob] = React.useState({});
@@ -44,9 +47,46 @@ function UpdateStatus({ match }) {
 
     const onSubmitClick = () => {
         console.log('update => ', status, image, job.job_id);
-        jobService.updateJobStatus(status, image, job.job_id)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+        if (status === '' || (status === 'JSID05' && image === null)) {
+            swal({
+                title: "Please select status or upload image",
+                icon: "warning",
+                button: "Accept",
+            })
+        } else {
+            jobService.updateJobStatus(status, image, job.job_id)
+                .then(
+                    res => {
+                        console.log(res);
+                        const title = res?.[0].message;
+                        swal({
+                            title: title,
+                            icon: "success",
+                            button: "Accept",
+                        })
+                        .then(() => {
+                            if (status === 'JSID04') {
+                                history.push('/job-list');
+                            }
+
+                            if (status === 'JSID05') {
+                                history.push('/history');
+                            }
+                        })
+                    }
+                )
+                .catch(
+                    err => {
+                        console.log(err);
+                        swal({
+                            title: "Something went wrong",
+                            text: "Please try again",
+                            icon: "error",
+                            button: "Accept",
+                        })
+                    }
+                )
+        }
     }
 
     const handleUpload = (imageValue) => {

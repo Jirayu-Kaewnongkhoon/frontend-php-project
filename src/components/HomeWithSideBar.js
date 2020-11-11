@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -42,7 +42,14 @@ function HomeWithSideBar() {
     const history = createBrowserHistory({ forceRefresh: true });
     const currentUser = authenticationService.currentUserValue;
 
+    const [selectedMenu, setSelectedMenu] = React.useState('Job Request Form');
     const [open, setOpen] = React.useState(false);
+
+    useEffect(() => {
+        if (currentUser.role_name === 'Head' || currentUser.role_name === 'Staff') {
+            setSelectedMenu('Job List')
+        }
+    }, [currentUser.role_name])
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -62,7 +69,7 @@ function HomeWithSideBar() {
             <List>
                 {primaryMenu.filter(menu => menu.role.includes(currentUser.role_name)).map(menu => (
                     <Link key={menu.url} to={`/${menu.url}`} className={classes.link} >
-                        <ListItem button>
+                        <ListItem button onClick={() => setSelectedMenu(menu.label)} >
                             <ListItemIcon>{menu.icon}</ListItemIcon>
                             <ListItemText primary={menu.label} />
                         </ListItem>
@@ -73,7 +80,7 @@ function HomeWithSideBar() {
             <List>
                 {secondaryMenu.map(menu => (
                     <Link key={menu.url} to={`/${menu.url}`} className={classes.link} >
-                        <ListItem button>
+                        <ListItem button onClick={() => setSelectedMenu(menu.label)} >
                             <ListItemIcon>{menu.icon}</ListItemIcon>
                             <ListItemText primary={menu.label} />
                         </ListItem>
@@ -86,38 +93,33 @@ function HomeWithSideBar() {
 
     return (
         <div>
-            {
-                currentUser &&
-                <div>
-                    <div className={classes.root}>
-                        <AppBar position="static">
-                            <Toolbar>
-                                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)} >
-                                    <MenuIcon />
-                                </IconButton>
-                                <Typography variant="h6" className={classes.title}>
-                                    News
-                                </Typography>
-                                <Avatar />
-                                <Typography 
-                                    color="inherit"
-                                    onClick={() => {
-                                        authenticationService.logout();
-                                        history.push('/login');
-                                    }}
-                                >
-                                    {currentUser.user_name}
-                                </Typography>
-                            </Toolbar>
-                        </AppBar>
-                    </div>
-                    <div>
-                        <Drawer anchor={'left'} open={open} onClose={toggleDrawer(false)}>
-                            {list()}
-                        </Drawer>
-                    </div>
-                </div>
-            }
+            <div className={classes.root}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)} >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" className={classes.title}>
+                            {selectedMenu}
+                        </Typography>
+                        <Avatar />
+                        <Typography 
+                            color="inherit"
+                            onClick={() => {
+                                authenticationService.logout();
+                                history.push('/login');
+                            }}
+                        >
+                            {currentUser.user_name}
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+            </div>
+            <div>
+                <Drawer anchor={'left'} open={open} onClose={toggleDrawer(false)}>
+                    {list()}
+                </Drawer>
+            </div>
         </div>
     );
 }

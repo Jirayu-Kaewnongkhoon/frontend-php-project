@@ -5,6 +5,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import swal from 'sweetalert';
+import { createBrowserHistory } from 'history';
 import { authenticationService } from '../services/authenticationService';
 import { jobService } from '../services/jobService';
 import { userService } from '../services/userService'
@@ -27,6 +29,7 @@ function Assign({ match }) {
 
     const classes = useStyles();
     const currentUser = authenticationService.currentUserValue;
+    const history = createBrowserHistory({ forceRefresh: true });
 
     const [staffList, setStaffList] = React.useState([]);
     const [job, setJob] = React.useState({});
@@ -55,9 +58,40 @@ function Assign({ match }) {
     };
 
     const onSubmitClick = () => {
-        jobService.createJobAssignment(selectedStaff, job.job_id)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+        if (selectedStaff === '') {
+            swal({
+                title: "Please select staff",
+                icon: "warning",
+                button: "Accept",
+            })
+        } else {
+            jobService.createJobAssignment(selectedStaff, job.job_id)
+                .then(
+                    res => {
+                        console.log(res);
+                        const title = res?.[0].message;
+                        swal({
+                            title: title,
+                            icon: "success",
+                            button: "Accept",
+                        })
+                        .then(() => {
+                            history.push('/history')
+                        })
+                    }
+                )
+                .catch(
+                    err => {
+                        console.log(err);
+                        swal({
+                            title: "Something went wrong",
+                            text: "Please try again",
+                            icon: "error",
+                            button: "Accept",
+                        })
+                    }
+                )
+        }
     }
 
     return (
