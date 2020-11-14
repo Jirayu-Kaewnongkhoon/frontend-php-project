@@ -3,6 +3,12 @@ import { makeStyles } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
+import PublishIcon from '@material-ui/icons/Publish';
+import DescriptionIcon from '@material-ui/icons/Description';
+import InfoIcon from '@material-ui/icons/Info';
 import swal from 'sweetalert';
 import { authenticationService } from '../services/authenticationService';
 import { jobService } from '../services/jobService';
@@ -13,14 +19,14 @@ import SelectLocation from '../components/SelectLocation';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
+    },
+    form: {
         '& .MuiTextField-root': {
-          margin: theme.spacing(1),
-          width: '25ch',
+            margin: theme.spacing(1),
+            width: '25ch',
         },
-        marginTop: '20px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
     },
     inputDetail: {
         marginTop: '8px',
@@ -37,6 +43,20 @@ const useStyles = makeStyles((theme) => ({
         },
         borderColor: '#c4c4c4',
         fontSize: '16px'
+    },
+    section: {
+        marginTop: '30px', 
+        marginBottom: '30px'
+    },
+    contentHeader: {
+        fontSize: 16, 
+        textDecoration: 'underline', 
+        display: 'flex', 
+        marginBottom: 20
+    },
+    content: {
+        display: 'flex',
+        justifyContent: 'center'
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
@@ -106,8 +126,6 @@ function JobRequestForm() {
                     }
                 )
         }
-
-
     }
 
     const handleUpload = (imageValue) => {
@@ -136,62 +154,104 @@ function JobRequestForm() {
         <div>
             {
                 currentUser &&
-                <div>
-                    <h1 style={{textAlign: 'center'}} >Job Request Form</h1>
-                    <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmitClick} >
+                <div className={classes.root} >
+                    <Container maxWidth='md' >
+                        <Typography style={{textAlign: 'center'}} >Job Request Form</Typography>
+                        <form className={classes.form} noValidate autoComplete="off" onSubmit={onSubmitClick} >
 
-                        <SelectLocation onChange={handleBuildingSelection} />
-                        <ImageUpload onChange={handleUpload} onRemove={handleResetUpload} />
+                            <div className={classes.content} >
+                                <SelectLocation onChange={handleBuildingSelection} />
+                            </div>
 
-                        <TextField
-                            required
-                            label="Building"
-                            variant="outlined"
-                            name='buildingName'
-                            value={jobRequest.buildingName}
-                            onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
-                        />
-                        
-                        <div>
-                            <TextField
-                                required
-                                label="Room"
-                                variant="outlined"
-                                name='room'
-                                onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
-                            />
+                            <div className={classes.section} >
+                                <Typography 
+                                    variant='h6' 
+                                    className={classes.contentHeader} 
+                                >
+                                    <InfoIcon color='primary'/>
+                                    Place Information
+                                </Typography>
 
-                            <TextField
-                                required
-                                label="Floor"
-                                variant="outlined"
-                                name='floor'
-                                onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
-                            />
-                        </div>
+                                <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                                    <TextField
+                                        required
+                                        label="Building"
+                                        variant="outlined"
+                                        name='buildingName'
+                                        value={jobRequest.buildingName}
+                                        onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                                    />
+                                
+                                    <TextField
+                                        required
+                                        label="Room"
+                                        variant="outlined"
+                                        name='room'
+                                        onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                                    />
 
-                        <br />
+                                    <TextField
+                                        required
+                                        label="Floor"
+                                        variant="outlined"
+                                        name='floor'
+                                        onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                                    />
+                                </div>
+                            </div>
 
-                        <TextareaAutosize
-                            name="description" 
-                            aria-label="description" 
-                            rowsMin={8}
-                            placeholder="Description..." 
-                            className={classes.inputDetail}
-                            onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} 
-                        />
+                            <Divider />
 
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Submit
-                        </Button>
+                            <div className={classes.section} >
+                                <Typography 
+                                    variant='h6' 
+                                    className={classes.contentHeader} 
+                                >
+                                    <PublishIcon color='primary'/>
+                                    Upload Image
+                                </Typography>
 
-                    </form>
-                    
+                                <div className={classes.content} >
+                                    <ImageUpload onChange={handleUpload} onRemove={handleResetUpload} />
+                                </div>
+                            </div>
+
+                            <Divider />
+
+                            <div className={classes.section} >
+                                <Typography 
+                                    variant='h6' 
+                                    className={classes.contentHeader} 
+                                >
+                                    <DescriptionIcon color='primary'/>
+                                    Description
+                                </Typography>
+
+                                <div className={classes.content} >
+                                    <TextareaAutosize
+                                        name="description" 
+                                        aria-label="description" 
+                                        rowsMin={8}
+                                        placeholder="Description..." 
+                                        className={classes.inputDetail}
+                                        onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} 
+                                    />
+                                </div>
+                            </div>
+
+                            <div className={classes.content} >
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                >
+                                    Submit
+                                </Button>
+                            </div>
+
+                        </form>
+                    </Container>
                 </div>
             }
         </div>

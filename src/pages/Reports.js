@@ -14,12 +14,17 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { jobService } from '../services/jobService'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
+    },
+    tableRow: {
         '& > *': {
             borderBottom: 'unset',
             fontSize: 16
@@ -30,7 +35,7 @@ const useStyles = makeStyles({
             fontSize: 16,
         },
     },
-});
+}));
 
 function Row(props) {
     const { row } = props;
@@ -39,7 +44,7 @@ function Row(props) {
 
     return (
         <React.Fragment>
-            <TableRow className={classes.root}>
+            <TableRow className={classes.tableRow}>
                 <TableCell>
                     <IconButton size="small" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -147,42 +152,44 @@ function Reports() {
     }
 
     return (
-        <div style={{padding: 40}}>
+        <div className={classes.root}>
             Reports page
-            <Grid container >
-                <Grid item xs={8} />
-                <Grid item xs={4} style={{textAlign: 'right'}} >
-                    <Button variant="contained" color="primary" onClick={handleDownloadClick} >
-                        Download PDF
-                    </Button>
+            <Container maxWidth='lg' >
+                <Grid container >
+                    <Grid item xs={8} />
+                    <Grid item xs={4} style={{textAlign: 'right'}} >
+                        <Button variant="contained" color="primary" onClick={handleDownloadClick} >
+                            Download PDF
+                        </Button>
+                    </Grid>
                 </Grid>
-            </Grid>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow className={classes.head}>
-                            <TableCell />
-                            <TableCell>รายการแจ้งซ่อม</TableCell>
-                            <TableCell align="center">สถานที่</TableCell>
-                            <TableCell align="right">วันที่แจ้ง</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                            <Row key={index} row={row} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow className={classes.head}>
+                                <TableCell />
+                                <TableCell>รายการแจ้งซ่อม</TableCell>
+                                <TableCell align="center">สถานที่</TableCell>
+                                <TableCell align="right">วันที่แจ้ง</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                                <Row key={index} row={row} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+            </Container>
         </div>
     )
 }
