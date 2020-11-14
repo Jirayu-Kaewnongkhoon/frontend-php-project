@@ -113,7 +113,7 @@ function UpdateStatus({ match }) {
                             onChange={handleChange}
                             label="Status"
                         >
-                            <MenuItem value={'JSID04'}>ดำเนินการ</MenuItem>
+                            { job.job_status_id !== 'JSID04' && <MenuItem value={'JSID04'}>ดำเนินการ</MenuItem> }
                             <MenuItem value={'JSID05'}>เสร็จสิ้น</MenuItem>
                         </Select>
                     </FormControl>

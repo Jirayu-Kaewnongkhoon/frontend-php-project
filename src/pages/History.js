@@ -12,18 +12,9 @@ import { authenticationService } from '../services/authenticationService';
 import { jobService } from '../services/jobService';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
     },
     cardGrid: {
         paddingTop: theme.spacing(8),
