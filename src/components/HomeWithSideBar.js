@@ -37,19 +37,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function HomeWithSideBar() {
+function HomeWithSideBar(props) {
     const classes = useStyles();
     const history = createBrowserHistory({ forceRefresh: true });
     const currentUser = authenticationService.currentUserValue;
 
-    const [selectedMenu, setSelectedMenu] = React.useState('Job Request Form');
+    const [selectedMenu, setSelectedMenu] = React.useState('');
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        if (currentUser.role_name === 'Head' || currentUser.role_name === 'Staff') {
-            setSelectedMenu('Job List')
-        }
-    }, [currentUser.role_name])
+        primaryMenu.forEach(menu => {
+            if (window.location.pathname === `/${menu.url}`) {
+                setSelectedMenu(menu.label)
+            }
+        })
+        
+        secondaryMenu.forEach(menu => {
+            if (window.location.pathname === `/${menu.url}`) {
+                setSelectedMenu(menu.label)
+            }
+        })
+    }, [])
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

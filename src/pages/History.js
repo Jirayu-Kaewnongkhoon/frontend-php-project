@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 120,
     },
     cardGrid: {
-        paddingTop: theme.spacing(8),
+        paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(8),
     },
 }));
@@ -53,57 +53,58 @@ function History() {
     return (
         <div>
             History
-
-            <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>Status</InputLabel>
-                {
-                    currentUser.role_name === 'User' &&
-                    <Select
-                        value={status}
-                        onChange={handleChange}
-                        label="Status"
-                    >
-                        <MenuItem value={'JSID01'}>รออนุมัติ</MenuItem>
-                        <MenuItem value={'JSID02'}>รับการแจ้งซ่อม</MenuItem>
-                        <MenuItem value={'JSID04'}>ดำเนินการ</MenuItem>
-                        <MenuItem value={'JSID05'}>เสร็จสิ้น</MenuItem>    
-                    </Select>
-                }
-
-                {
-                    currentUser.role_name === 'Head' &&
-                    <Select
-                        value={status}
-                        onChange={handleChange}
-                        label="Status"
-                    >
-                        <MenuItem value={'JSID03'}>มอบหมาย</MenuItem>
-                        <MenuItem value={'JSID04'}>ดำเนินการ</MenuItem>
-                        <MenuItem value={'JSID05'}>เสร็จสิ้น</MenuItem>    
-                    </Select>
-                }
-
-                {
-                    currentUser.role_name === 'Staff' &&
-                    <Select
-                        value={status}
-                        onChange={handleChange}
-                        label="Status"
-                    >
-                        <MenuItem value={'JSID04'}>ดำเนินการ</MenuItem>
-                        <MenuItem value={'JSID05'}>เสร็จสิ้น</MenuItem>    
-                    </Select>
-                }
-            </FormControl>
             <React.Fragment>
                 <main>
                     <Container className={classes.cardGrid} maxWidth="md">
+                        <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 30}} >
+                            <FormControl variant="outlined" className={classes.formControl}>
+                                <InputLabel>Status</InputLabel>
+                                {
+                                    currentUser.role_name === 'User' &&
+                                    <Select
+                                        value={status}
+                                        onChange={handleChange}
+                                        label="Status"
+                                    >
+                                        <MenuItem value={'JSID01'}>รออนุมัติ</MenuItem>
+                                        <MenuItem value={'JSID02'}>รับการแจ้งซ่อม</MenuItem>
+                                        <MenuItem value={'JSID04'}>ดำเนินการ</MenuItem>
+                                        <MenuItem value={'JSID05'}>เสร็จสิ้น</MenuItem>    
+                                    </Select>
+                                }
+
+                                {
+                                    currentUser.role_name === 'Head' &&
+                                    <Select
+                                        value={status}
+                                        onChange={handleChange}
+                                        label="Status"
+                                    >
+                                        <MenuItem value={'JSID03'}>มอบหมาย</MenuItem>
+                                        <MenuItem value={'JSID04'}>ดำเนินการ</MenuItem>
+                                        <MenuItem value={'JSID05'}>เสร็จสิ้น</MenuItem>    
+                                    </Select>
+                                }
+
+                                {
+                                    currentUser.role_name === 'Staff' &&
+                                    <Select
+                                        value={status}
+                                        onChange={handleChange}
+                                        label="Status"
+                                    >
+                                        <MenuItem value={'JSID04'}>ดำเนินการ</MenuItem>
+                                        <MenuItem value={'JSID05'}>เสร็จสิ้น</MenuItem>    
+                                    </Select>
+                                }
+                            </FormControl>
+                        </div>
                         {
                             !isLoad ? 
                                 jobList.length !== 0 ?
                                 <Grid container spacing={4}>
                                     {jobList.filter(job => job.job_status_id === status).map((job, index) => (
-                                        <JobItem key={index} data={job} path={'/history'} />
+                                        <JobItem key={index} data={job} />
                                     ))}
                                 </Grid>
                                 : 
