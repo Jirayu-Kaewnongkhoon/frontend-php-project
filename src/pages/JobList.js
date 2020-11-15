@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function JobList(props) {
+function JobList() {
 
     const classes = useStyles();
     const currentUser = authenticationService.currentUserValue;
@@ -52,7 +52,7 @@ function JobList(props) {
                             jobList.length !== 0 ?
                             <Grid container spacing={4}>
                                 {jobList.map((job, index) => (
-                                    <JobItem key={index} data={job} path={props.location.pathname} />
+                                    <JobItem key={index} data={job} />
                                 ))}
                             </Grid>
                             : 

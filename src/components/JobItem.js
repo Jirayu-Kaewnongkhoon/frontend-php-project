@@ -68,7 +68,7 @@ function JobItem(props) {
                     { open && <JobDetailPopup handleClose={handleClose} open={open} jobID={props.data.job_id} /> }
 
                     {
-                        currentUser && currentUser.role_name === "Head" && props.path.includes('/job-list') &&
+                        currentUser && currentUser.role_name === "Head" && window.location.pathname.includes('/job-list') &&
                         <Link to={`/job-list/assign/${props.data.job_id}`} className={classes.link} >
                             <Button size="small" color="primary">
                                 Assign
@@ -77,7 +77,7 @@ function JobItem(props) {
                     }
 
                     {
-                        currentUser && currentUser.role_name === "Staff" && props.path.includes('/job-list') &&
+                        currentUser && currentUser.role_name === "Staff" && window.location.pathname.includes('/job-list') &&
                         <Link to={`/job-list/update/${props.data.job_id}`} className={classes.link} >
                             <Button size="small" color="primary">
                                 Update
