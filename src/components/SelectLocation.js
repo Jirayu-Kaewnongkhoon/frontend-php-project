@@ -84,10 +84,11 @@ function SelectLocation(props) {
             <h3 style={{textAlign: 'center'}}>SelectLocation</h3>
             <canvas
                 id="canvas"
-                width="400"
-                height="266"
+                width="900"
+                height="650"
                 ref={canvasRef}
                 onClick={() => {
+                    // console.log(color);
                     buildingList.forEach(element => {
                         if (element.color === color) {
                             props.onChange(element.buildingName);
