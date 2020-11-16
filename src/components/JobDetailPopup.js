@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
+    detail: {
+        margin: '20px 0px 20px 0px', 
+    }
 }));
 
 const styles = (theme) => ({
@@ -62,7 +65,7 @@ const DialogTitle = withStyles(styles)((props) => {
             <Typography variant="h6">{children}</Typography>
             {onClose ? (
                 <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-                <CloseIcon />
+                    <CloseIcon />
                 </IconButton>
             ) : null}
         </MuiDialogTitle>
@@ -103,7 +106,9 @@ function JobDetailPopup(props) {
     };
 
     const handlePostImageToggle = () => {
-        setOpenPostImage(!openPostImage);
+        if (job.post_image_path !== '') {
+            setOpenPostImage(!openPostImage);
+        }
     };
 
     return (
@@ -114,7 +119,7 @@ function JobDetailPopup(props) {
                 </DialogTitle>
                 <DialogContent dividers>
                     <div className={classes.imageRoot}>
-                        <GridList className={classes.gridList} cols={2}>
+                        <GridList className={classes.gridList} style={{justifyContent: job.post_image_path === '' ? 'center' : 'unset'}} cols={2}>
                             <GridListTile onClick={handlePreImageToggle} style={{cursor: 'pointer'}} >
                                 <img src={job.pre_image_path} alt="Before"/>
                                 <GridListTileBar
@@ -125,29 +130,32 @@ function JobDetailPopup(props) {
                                     }}
                                 />
                             </GridListTile>
-                            <GridListTile onClick={handlePostImageToggle} style={{cursor: 'pointer'}} >
-                                <img src={job.post_image_path} alt="After"/>
-                                <GridListTileBar
-                                    title={"After"}
-                                    classes={{
-                                        root: classes.titleBar,
-                                        title: classes.title,
-                                    }}
+                            {
+                                job.post_image_path !== '' &&
+                                <GridListTile onClick={handlePostImageToggle} style={{cursor: 'pointer'}} >
+                                    <img src={job.post_image_path} alt="After"/>
+                                    <GridListTileBar
+                                        title={"After"}
+                                        classes={{
+                                            root: classes.titleBar,
+                                            title: classes.title,
+                                        }}
 
-                                />
-                            </GridListTile>
+                                    />
+                                </GridListTile>
+                            }
                         </GridList>
                     </div>
-                    <Typography gutterBottom>
+                    <Typography gutterBottom className={classes.detail}>
                         {`Building: ${job.building}`}
                     </Typography>
-                    <Typography gutterBottom>
+                    <Typography gutterBottom className={classes.detail}>
                         {`Floor: ${job.floor}`}
                     </Typography>
-                    <Typography gutterBottom>
+                    <Typography gutterBottom className={classes.detail}>
                         {`Room: ${job.room}`}
                     </Typography>
-                    <Typography gutterBottom>
+                    <Typography gutterBottom className={classes.detail}>
                         {`Description: ${job.description}`}
                     </Typography>
                 </DialogContent>
