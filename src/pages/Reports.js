@@ -73,7 +73,7 @@ function Row(props) {
                                 </Grid>
                                 <Grid item md={8} xs={6}>
                                     <Typography gutterBottom component="div">
-                                        {row.requester_id}
+                                        {row.requester_name}
                                     </Typography>
                                 </Grid>
 
@@ -109,7 +109,7 @@ function Row(props) {
                                 </Grid>
                                 <Grid item md={8} xs={6}>
                                     <Typography gutterBottom component="div">
-                                        {row.staff_id === null ? 'ยังไม่ถูกมอบหมาย' : row.staff_id}
+                                        {row.staff_name === null ? 'ยังไม่ถูกมอบหมาย' : row.staff_name}
                                     </Typography>
                                 </Grid>
 
@@ -157,7 +157,7 @@ function Reports() {
             <Container maxWidth='lg' >
                 <Grid container >
                     <Grid item xs={8} />
-                    <Grid item xs={4} style={{textAlign: 'right'}} >
+                    <Grid item xs={4} style={{textAlign: 'right', marginBottom: 20}} >
                         <Button variant="contained" color="primary" onClick={handleDownloadClick} >
                             Download PDF
                         </Button>
