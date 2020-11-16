@@ -101,7 +101,7 @@ function History() {
                         </div>
                         {
                             !isLoad ? 
-                                jobList.length !== 0 ?
+                                jobList.filter(job => job.job_status_id === status).length !== 0 ?
                                 <Grid container spacing={4}>
                                     {jobList.filter(job => job.job_status_id === status).map((job, index) => (
                                         <JobItem key={index} data={job} />

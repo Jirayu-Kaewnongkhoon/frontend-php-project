@@ -67,6 +67,13 @@ function HomeWithSideBar(props) {
         setOpen(open);
     };
 
+    const onLogoutClick = (menu) => { 
+        if (menu === "Logout") {
+            authenticationService.logout(); 
+            history.push('/login');
+        }
+    }
+
     const list = () => (
         <div
             className={classes.list}
@@ -87,7 +94,7 @@ function HomeWithSideBar(props) {
             <Divider />
             <List>
                 {secondaryMenu.map(menu => (
-                    <Link key={menu.url} to={`/${menu.url}`} className={classes.link} >
+                    <Link key={menu.url} to={`/${menu.url}`} className={classes.link} onClick={() => onLogoutClick(menu.label)} >
                         <ListItem button onClick={() => setSelectedMenu(menu.label)} >
                             <ListItemIcon>{menu.icon}</ListItemIcon>
                             <ListItemText primary={menu.label} />
@@ -113,10 +120,7 @@ function HomeWithSideBar(props) {
                         <Avatar />
                         <Typography 
                             color="inherit"
-                            onClick={() => {
-                                authenticationService.logout();
-                                history.push('/login');
-                            }}
+                            style={{marginLeft: 10}}
                         >
                             {currentUser.user_name}
                         </Typography>
