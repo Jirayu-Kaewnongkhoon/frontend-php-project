@@ -15,13 +15,18 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { jobService } from '../services/jobService'
+import { monthList } from '../constants/month';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        paddingTop: theme.spacing(8),
+        paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(8),
     },
     tableRow: {
@@ -34,6 +39,16 @@ const useStyles = makeStyles((theme) => ({
         '& > *': {
             fontSize: 16,
         },
+    },
+    option: {
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        marginBottom: 20
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
     },
 }));
 
@@ -129,12 +144,17 @@ function Reports() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [rows, setRows] = React.useState([]);
+    const [month, setMonth] = React.useState(new Date().getMonth()+1);
 
     useEffect(() => {
         jobService.getReports()
             .then(res => setRows(res))
             .catch(err => console.log(err))
     }, [])
+
+    const handleChangeMonth = (event) => {
+        setMonth(event.target.value);
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -146,23 +166,29 @@ function Reports() {
     };
 
     const handleDownloadClick = () => {
-        jobService.getReportsPDF()
+        jobService.getReportsPDF(month)
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }
 
     return (
         <div className={classes.root}>
-            Reports page
             <Container maxWidth='lg' >
-                <Grid container >
-                    <Grid item xs={8} />
-                    <Grid item xs={4} style={{textAlign: 'right', marginBottom: 20}} >
-                        <Button variant="contained" color="primary" onClick={handleDownloadClick} >
-                            Download PDF
-                        </Button>
-                    </Grid>
-                </Grid>
+                <div className={classes.option} >
+                    <Button variant="contained" color="primary" onClick={handleDownloadClick} >
+                        Download PDF
+                    </Button>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                        <InputLabel>Month</InputLabel>
+                        <Select
+                            value={month}
+                            onChange={handleChangeMonth}
+                            label="Month"
+                        >
+                            {monthList.map(month => <MenuItem key={month.name} value={month.index}>{month.name}</MenuItem>)}
+                        </Select>
+                    </FormControl>
+                </div>
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
@@ -174,9 +200,10 @@ function Reports() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                                <Row key={index} row={row} />
-                            ))}
+                            {rows.filter(job => new Date(job.pre_timestmp).getMonth()+1 === month && job)
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row, index) => <Row key={index} row={row} />)
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
