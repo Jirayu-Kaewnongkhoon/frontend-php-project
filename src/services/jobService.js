@@ -112,8 +112,8 @@ function getLocationImage() {
     })
 }
 
-function getReportsPDF() {
-    return axios.get(`${url}/api/JobServices/getReportsPDF.php`)
+function getReportsPDF(month) {
+    return axios.get(`${url}/api/JobServices/getReportsPDF.php?month=${month}`)
         .then(response => {
             console.log("getReportsPDF => ", response);
             return response.data

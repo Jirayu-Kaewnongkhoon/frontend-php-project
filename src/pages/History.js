@@ -52,7 +52,6 @@ function History() {
 
     return (
         <div>
-            History
             <React.Fragment>
                 <main>
                     <Container className={classes.cardGrid} maxWidth="md">

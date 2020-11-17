@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { buildingList } from '../constants/buildingList'
+import { buildingList } from '../constants/building'
 import { jobService } from '../services/jobService';
 
 function SelectLocation(props) {
