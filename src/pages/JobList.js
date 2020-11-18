@@ -24,6 +24,7 @@ function JobList() {
     const [isLoad, setLoad] = React.useState(true);
 
     useEffect(() => {
+        document.title = "Fix Me : Job List";
         if (currentUser.role_name === 'Head') {
             jobService.getJobRequest(currentUser.user_id)
                 .then(data => {

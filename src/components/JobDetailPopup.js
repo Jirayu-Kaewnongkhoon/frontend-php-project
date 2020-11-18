@@ -10,6 +10,8 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Backdrop from '@material-ui/core/Backdrop';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import { jobService } from '../services/jobService';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         backgroundColor: theme.palette.background.paper,
+        marginBottom: '20px'
     },
     gridList: {
         flexWrap: 'nowrap',
@@ -41,7 +44,10 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
     },
     detail: {
-        margin: '20px 0px 20px 0px', 
+        marginTop: 20,
+        '& > * > *': {
+            fontSize: 20,
+        },
     }
 }));
 
@@ -62,7 +68,7 @@ const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
         <MuiDialogTitle disableTypography className={classes.root} {...other}>
-            <Typography variant="h6">{children}</Typography>
+            <Typography variant="h6" style={{fontWeight: 'bold'}} >{children}</Typography>
             {onClose ? (
                 <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
                     <CloseIcon />
@@ -115,11 +121,15 @@ function JobDetailPopup(props) {
         <div>
             <Dialog onClose={() => props.handleClose()} open={props.open}>
                 <DialogTitle onClose={() => props.handleClose()}>
-                    {`Job ID: ${job.job_id}`}
+                    {`รายการแจ้งซ่อม ${job.job_id}`}
                 </DialogTitle>
                 <DialogContent dividers>
                     <div className={classes.imageRoot}>
-                        <GridList className={classes.gridList} style={{justifyContent: job.post_image_path === '' ? 'center' : 'unset'}} cols={2}>
+                        <GridList 
+                            className={classes.gridList} 
+                            style={{justifyContent: job.post_image_path === '' ? 'center' : 'unset'}} 
+                            cols={2}
+                        >
                             <GridListTile onClick={handlePreImageToggle} style={{cursor: 'pointer'}} >
                                 <img src={job.pre_image_path} alt="Before"/>
                                 <GridListTileBar
@@ -140,24 +150,47 @@ function JobDetailPopup(props) {
                                             root: classes.titleBar,
                                             title: classes.title,
                                         }}
-
                                     />
                                 </GridListTile>
                             }
                         </GridList>
                     </div>
-                    <Typography gutterBottom className={classes.detail}>
-                        {`Building: ${job.building}`}
-                    </Typography>
-                    <Typography gutterBottom className={classes.detail}>
-                        {`Floor: ${job.floor}`}
-                    </Typography>
-                    <Typography gutterBottom className={classes.detail}>
-                        {`Room: ${job.room}`}
-                    </Typography>
-                    <Typography gutterBottom className={classes.detail}>
-                        {`Description: ${job.description}`}
-                    </Typography>
+
+                    <Divider />
+
+                    <Grid container className={classes.detail}>
+                        <Grid item md={1} xs={1}/>
+                        <Grid item md={4} xs={4}>
+                            <Typography gutterBottom>สถานที่:</Typography>
+                        </Grid>
+                        <Grid item md={7} xs={7}>
+                            <Typography gutterBottom>{job.building}</Typography>
+                        </Grid>
+                        
+                        <Grid item md={1} xs={1}/>
+                        <Grid item md={4} xs={4}>
+                            <Typography gutterBottom>ชั้น:</Typography>
+                        </Grid>
+                        <Grid item md={7} xs={7}>
+                            <Typography gutterBottom>{job.floor}</Typography>
+                        </Grid>
+                        
+                        <Grid item md={1} xs={1}/>
+                        <Grid item md={4} xs={4}>
+                            <Typography gutterBottom>ห้อง:</Typography>
+                        </Grid>
+                        <Grid item md={7} xs={7}>
+                            <Typography gutterBottom>{job.room}</Typography>
+                        </Grid>
+                        
+                        <Grid item md={1} xs={1}/>
+                        <Grid item md={4} xs={4}>
+                            <Typography gutterBottom>รายละเอียด:</Typography>
+                        </Grid>
+                        <Grid item md={7} xs={7}>
+                            <Typography gutterBottom>{job.description}</Typography>
+                        </Grid>
+                    </Grid>
                 </DialogContent>
                 <Backdrop className={classes.backdrop} open={openPreImage} onClick={handlePreImageClose}>
                     <img src={job.pre_image_path} width='700' alt=""/>

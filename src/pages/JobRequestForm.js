@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import TextField from '@material-ui/core/TextField';
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: '30px'
     },
     contentHeader: {
-        fontSize: 16, 
+        fontSize: 18, 
         textDecoration: 'underline', 
         display: 'flex', 
         marginBottom: 20
@@ -78,6 +78,10 @@ function JobRequestForm() {
         floor: '',
         description: ''
     });
+
+    useEffect(() => {
+        document.title = "Fix Me : Job Request Form";
+    }, [])
 
     const onSubmitClick = (e) => {
         e.preventDefault();

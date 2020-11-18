@@ -147,6 +147,7 @@ function Reports() {
     const [month, setMonth] = React.useState(new Date().getMonth()+1);
 
     useEffect(() => {
+        document.title = "Fix Me : Reports";
         jobService.getReports()
             .then(res => setRows(res))
             .catch(err => console.log(err))
