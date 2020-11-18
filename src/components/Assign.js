@@ -5,6 +5,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import InfoIcon from '@material-ui/icons/Info';
+import ImageIcon from '@material-ui/icons/Image';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
 import swal from 'sweetalert';
 import { createBrowserHistory } from 'history';
 import { authenticationService } from '../services/authenticationService';
@@ -12,16 +19,31 @@ import { jobService } from '../services/jobService';
 import { userService } from '../services/userService'
 
 const useStyles = makeStyles((theme) => ({
+    contentHeader: {
+        fontSize: 18, 
+        textDecoration: 'underline', 
+        display: 'flex', 
+        marginBottom: 20
+    },
+    content: {
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    section: {
+        marginTop: '30px', 
+        marginBottom: '30px'
+    },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
+        minWidth: 240,
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
         width: '50%',
+    },
+    cardGrid: {
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(8),
     },
 }));
 
@@ -96,36 +118,107 @@ function Assign({ match }) {
 
     return (
         <div>
-            Assign
+            <Container className={classes.cardGrid} maxWidth="md">
             {
                 !isLoad &&
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}} >
-                    {`Job ID: ${job.job_id}`} <br />
-                    {`Description: ${job.description}`} <br />
-                    <img src={job.pre_image_path} alt='' width='500px' />
-                    <FormControl variant="outlined" className={classes.formControl}>
-                        <InputLabel>Staff</InputLabel>
-                        <Select
-                            value={selectedStaff}
-                            onChange={handleChange}
-                            label="Staff"
+                <div>
+                    <div className={classes.section}>
+                        <Typography variant='h5' style={{fontWeight: 'bold', textDecoration: 'underline', textAlign: 'center'}} >
+                            มอบหมายงาน
+                        </Typography>
+                    </div>
+
+                    <Divider />
+
+                    <div className={classes.section}>
+                        <Typography variant='h6' className={classes.contentHeader} >
+                            <InfoIcon color='primary'/>
+                            Information
+                        </Typography>
+                        <Grid container>
+                            <Grid item md={2} xs={2}/>
+                            <Grid item md={3} xs={3}>
+                                <Typography>สถานที่:</Typography>
+                            </Grid>
+                            <Grid item md={7} xs={7}>
+                                <Typography>{job.building}</Typography>
+                            </Grid>
+                            
+                            <Grid item md={2} xs={2}/>
+                            <Grid item md={3} xs={3}>
+                                <Typography>ชั้น:</Typography>
+                            </Grid>
+                            <Grid item md={7} xs={7}>
+                                <Typography>{job.floor}</Typography>
+                            </Grid>
+                            
+                            <Grid item md={2} xs={2}/>
+                            <Grid item md={3} xs={3}>
+                                <Typography>ห้อง:</Typography>
+                            </Grid>
+                            <Grid item md={7} xs={7}>
+                                <Typography>{job.room}</Typography>
+                            </Grid>
+                            
+                            <Grid item md={2} xs={2}/>
+                            <Grid item md={3} xs={3}>
+                                <Typography>รายละเอียด:</Typography>
+                            </Grid>
+                            <Grid item md={7} xs={7}>
+                                <Typography>{job.description}</Typography>
+                            </Grid>
+                        </Grid>
+                    </div>
+
+                    <Divider />
+
+                    <div className={classes.section}>
+                        <Typography variant='h6' className={classes.contentHeader} >
+                            <ImageIcon color='primary'/>
+                            Images
+                        </Typography>
+                        <div className={classes.content}>
+                            <img src={job.pre_image_path} alt='' width='450px' />
+                        </div>
+                    </div>
+
+                    <Divider />
+
+                    <div className={classes.section}>
+                        <Typography variant='h6' className={classes.contentHeader} >
+                            <HowToRegIcon color='primary'/>
+                            Assign To
+                        </Typography>
+                        <div className={classes.content}>
+                            <FormControl variant="outlined" className={classes.formControl}>
+                                <InputLabel>Staff</InputLabel>
+                                <Select
+                                    value={selectedStaff}
+                                    onChange={handleChange}
+                                    label="Staff"
+                                >
+                                    {staffList.map((staff, index) => (
+                                        <MenuItem key={index} value={staff.user_id}>{staff.user_name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                    </div>
+
+                    <div className={classes.content}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={onSubmitClick}
                         >
-                            {staffList.map((staff, index) => (
-                                <MenuItem key={index} value={staff.user_id}>{staff.user_name}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={onSubmitClick}
-                    >
-                        Submit
-                    </Button>
+                            Submit
+                        </Button>
+                    </div>
                 </div>
             }
+            </Container>
         </div>
     )
 }

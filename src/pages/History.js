@@ -32,6 +32,7 @@ function History() {
     const [status, setStatus] = React.useState('JSID01');
 
     useEffect(() => {
+        document.title = "Fix Me : History";
         if (currentUser.role_name === 'Head') {
             setStatus('JSID03');
         } 
