@@ -10,6 +10,7 @@ import UpdateStatus from './components/UpdateStatus';
 import History from './pages/History';
 import HomeWithSideBar from './components/HomeWithSideBar';
 import Reports from './pages/Reports';
+import About from './pages/About';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
             <Route path='/login' component={Login} />
             <Route path='/' exact component={Home} />
             <Route path='/history' component={History} />
+            <Route path='/about' component={About} />
             
             {
               currentUser && currentUser.role_name === "User" && 

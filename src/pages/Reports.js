@@ -19,6 +19,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Backdrop from '@material-ui/core/Backdrop';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { jobService } from '../services/jobService'
@@ -50,12 +51,30 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 120,
     },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+        '& > *': {
+            margin: theme.spacing(1),
+        }
+    },
 }));
 
 function Row(props) {
+
+    const classes = useStyles();
+
     const { row } = props;
     const [open, setOpen] = React.useState(false);
-    const classes = useStyles();
+    const [openPreImage, setOpenPreImage] = React.useState(false);
+
+    const handlePreImageClose = () => {
+        setOpenPreImage(false);
+    };
+
+    const handlePreImageToggle = () => {
+        setOpenPreImage(!openPreImage);
+    };
 
     return (
         <React.Fragment>
@@ -76,7 +95,7 @@ function Row(props) {
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1} >
                             <Typography gutterBottom component="div" style={{ textDecoration: 'underline' }}>
-                                Detail
+                                รายละเอียด
                             </Typography>
                             <Grid container>
 
@@ -128,11 +147,24 @@ function Row(props) {
                                     </Typography>
                                 </Grid>
 
+                                <Grid item md={10} xs={10} />
+                                <Grid item md={2} xs={2} style={{textAlign: 'right'}} >
+                                    <Button variant='contained' color='primary' onClick={handlePreImageToggle} >
+                                        ดูรูปภาพ
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Box>
                     </Collapse>
                 </TableCell>
             </TableRow>
+            <Backdrop className={classes.backdrop} open={openPreImage} onClick={handlePreImageClose}>
+                <img src={row.pre_image_path} width='700' alt=""/>
+                {
+                    row.post_image_path !== '' &&
+                    <img src={row.post_image_path} width='700' alt=""/>
+                }
+            </Backdrop>
         </React.Fragment>
     );
 }
