@@ -1,9 +1,4 @@
 import React from 'react';
-import History from "../pages/History";
-import JobList from "../pages/JobList";
-import JobRequestForm from "../pages/JobRequestForm";
-import Login from "../pages/Login";
-import Reports from '../pages/Reports';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import InfoIcon from '@material-ui/icons/Info';
 import ViewListIcon from '@material-ui/icons/ViewList';
@@ -17,28 +12,24 @@ export const primaryMenu = [
         icon: <ViewListIcon />,
         url: 'job-list',
         role: ['Head', 'Staff'],
-        component: JobList
     },
     {
         label: 'Job Request Form',
         icon: <LibraryBooksIcon />,
         url: 'job-request',
         role: ['User'],
-        component: JobRequestForm
     },
     {
         label: 'History',
         icon: <HistoryIcon />,
         url: 'history',
         role: ['User', 'Head', 'Staff'],
-        component: History
     },
     {
         label: 'Reports',
         icon: <AssessmentIcon />,
         url: 'reports',
         role: ['Head', 'Staff'],
-        component: Reports
     },
 ]
 
@@ -47,12 +38,10 @@ export const secondaryMenu = [
         label: 'About',
         icon: <InfoIcon />,
         url: 'about',
-        component: Login
     },
     {
         label: 'Logout',
         icon: <ExitToAppIcon />,
         url: 'login',
-        component: Login
     },
 ]

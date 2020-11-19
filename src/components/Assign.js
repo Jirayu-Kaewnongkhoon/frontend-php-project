@@ -12,6 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import InfoIcon from '@material-ui/icons/Info';
 import ImageIcon from '@material-ui/icons/Image';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import swal from 'sweetalert';
 import { createBrowserHistory } from 'history';
 import { authenticationService } from '../services/authenticationService';
@@ -126,6 +128,34 @@ function Assign({ match }) {
                         <Typography variant='h5' style={{fontWeight: 'bold', textDecoration: 'underline', textAlign: 'center'}} >
                             มอบหมายงาน
                         </Typography>
+                    </div>
+
+                    <div className={classes.section}>
+                        <div style={{display: 'flex', marginBottom: 20}} >
+                            <AssignmentIcon color='primary'/>
+                            <Grid container>
+                                <Grid item md={3} xs={3}>
+                                    <Typography style={{fontSize: 18}}>รายการแจ้งซ่อมหมายเลข:</Typography>
+                                </Grid>
+                                <Grid item md={9} xs={9}>
+                                    <Typography style={{fontSize: 18}}>{job.job_id}</Typography>
+                                </Grid>
+                            </Grid>
+                        </div>
+                        <div style={{display: 'flex', marginBottom: 20}} >
+                            <FiberManualRecordIcon color='primary'/>
+                            <Grid container>
+                                <Grid item md={3} xs={3}>
+                                    <Typography style={{fontSize: 18}}>สถานะ:</Typography>
+                                </Grid>
+                                <Grid item md={9} xs={9}>
+                                    <Typography style={{display: 'flex', fontSize: 18}} >
+                                        <FiberManualRecordIcon style={{color: '#FFCD33'}} />
+                                        {job.job_status_name}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </div>
                     </div>
 
                     <Divider />

@@ -59,7 +59,12 @@ function JobItem(props) {
                     </Typography>
                     <Typography style={{display: 'flex', alignItems: 'center'}} >
                         {`สถานะ: `}
-                        <FiberManualRecordIcon style={{color: props.data.job_status_id !== 'JSID05' ? 'yellow' : 'green'}} />
+                        <FiberManualRecordIcon 
+                            style={{
+                                color: props.data.job_status_id === 'JSID01' ? '#28A7F2' : 
+                                        props.data.job_status_id === 'JSID05' ? 'green' : '#FFCD33'
+                            }} 
+                        />
                         {props.data.job_status_name}
                     </Typography>
                 </CardContent>
