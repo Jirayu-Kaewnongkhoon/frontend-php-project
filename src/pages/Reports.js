@@ -107,7 +107,7 @@ function Row(props) {
                                 <Grid item md={1} xs={1} />
                                 <Grid item md={3} xs={5}>
                                     <Typography gutterBottom component="div">
-                                        หมายเลขใบแจ้งซ่อม :
+                                        หมายเลขรายการแจ้งซ่อม :
                                     </Typography>
                                 </Grid>
                                 <Grid item md={8} xs={6}>
