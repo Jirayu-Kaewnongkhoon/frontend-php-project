@@ -24,6 +24,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { jobService } from '../services/jobService'
 import { monthList } from '../constants/month';
+import { authenticationService } from '../services/authenticationService';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -199,7 +200,7 @@ function Reports() {
     };
 
     const handleDownloadClick = () => {
-        jobService.getReportsPDF(month)
+        jobService.getReportsPDF(month, authenticationService.currentUserValue.user_name)
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }

@@ -190,6 +190,31 @@ function JobDetailPopup(props) {
                         <Grid item md={7} xs={7}>
                             <Typography gutterBottom>{job.description}</Typography>
                         </Grid>
+
+                        <Grid item md={1} xs={1}/>
+                        <Grid item md={4} xs={4}>
+                            <Typography gutterBottom>วันที่แจ้ง:</Typography>
+                        </Grid>
+                        <Grid item md={7} xs={7}>
+                            <Typography gutterBottom>
+                                {new Date(job.pre_timestmp).toLocaleString()}
+                            </Typography>
+                        </Grid>
+
+                        {
+                            job.post_timestmp !== '' &&
+                            <Grid container className={classes.detail} style={{marginTop: 0}}>
+                                <Grid item md={1} xs={1}/>
+                                <Grid item md={4} xs={4}>
+                                    <Typography gutterBottom>วันที่ซ่อมเสร็จสิ้น:</Typography>
+                                </Grid>
+                                <Grid item md={7} xs={7}>
+                                    <Typography gutterBottom>
+                                        {new Date(job.post_timestmp).toLocaleString()}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        }
                     </Grid>
                 </DialogContent>
                 <Backdrop className={classes.backdrop} open={openPreImage} onClick={handlePreImageClose}>

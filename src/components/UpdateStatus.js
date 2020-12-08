@@ -8,16 +8,12 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
-import InfoIcon from '@material-ui/icons/Info';
-import ImageIcon from '@material-ui/icons/Image';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import swal from 'sweetalert';
 import { createBrowserHistory } from 'history';
 import { jobService } from '../services/jobService';
 import ImageUpload from './ImageUpload';
+import JobDetail from './JobDetail';
 
 const useStyles = makeStyles((theme) => ({
     cardGrid: {
@@ -136,87 +132,7 @@ function UpdateStatus({ match }) {
                         </Typography>
                     </div>
 
-                    <div className={classes.section}>
-                        <div style={{display: 'flex', marginBottom: 20}} >
-                            <AssignmentIcon color='primary'/>
-                            <Grid container>
-                                <Grid item md={3} xs={3}>
-                                    <Typography style={{fontSize: 18}}>รายการแจ้งซ่อมหมายเลข:</Typography>
-                                </Grid>
-                                <Grid item md={9} xs={9}>
-                                    <Typography style={{fontSize: 18}}>{job.job_id}</Typography>
-                                </Grid>
-                            </Grid>
-                        </div>
-                        <div style={{display: 'flex', marginBottom: 20}} >
-                            <FiberManualRecordIcon color='primary'/>
-                            <Grid container>
-                                <Grid item md={3} xs={3}>
-                                    <Typography style={{fontSize: 18}}>สถานะ:</Typography>
-                                </Grid>
-                                <Grid item md={9} xs={9}>
-                                    <Typography style={{display: 'flex', fontSize: 18}} >
-                                        <FiberManualRecordIcon style={{color: '#FFCD33'}} />
-                                        {job.job_status_name}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </div>
-                    
-                    <Divider />
-
-                    <div className={classes.section}>
-                        <Typography variant='h6' className={classes.contentHeader} >
-                            <InfoIcon color='primary'/>
-                            Information
-                        </Typography>
-                        <Grid container>
-                            <Grid item md={2} xs={2}/>
-                            <Grid item md={3} xs={3}>
-                                <Typography>สถานที่:</Typography>
-                            </Grid>
-                            <Grid item md={7} xs={7}>
-                                <Typography>{job.building}</Typography>
-                            </Grid>
-                            
-                            <Grid item md={2} xs={2}/>
-                            <Grid item md={3} xs={3}>
-                                <Typography>ชั้น:</Typography>
-                            </Grid>
-                            <Grid item md={7} xs={7}>
-                                <Typography>{job.floor}</Typography>
-                            </Grid>
-                            
-                            <Grid item md={2} xs={2}/>
-                            <Grid item md={3} xs={3}>
-                                <Typography>ห้อง:</Typography>
-                            </Grid>
-                            <Grid item md={7} xs={7}>
-                                <Typography>{job.room}</Typography>
-                            </Grid>
-                            
-                            <Grid item md={2} xs={2}/>
-                            <Grid item md={3} xs={3}>
-                                <Typography>รายละเอียด:</Typography>
-                            </Grid>
-                            <Grid item md={7} xs={7}>
-                                <Typography>{job.description}</Typography>
-                            </Grid>
-                        </Grid>
-                    </div>
-
-                    <Divider />
-
-                    <div className={classes.section}>
-                        <Typography variant='h6' className={classes.contentHeader} >
-                            <ImageIcon color='primary'/>
-                            Images
-                        </Typography>
-                        <div className={classes.content}>
-                            <img src={job.pre_image_path} alt='' width='450px' />
-                        </div>
-                    </div>
+                    <JobDetail job={job} />
 
                     <Divider />
 
