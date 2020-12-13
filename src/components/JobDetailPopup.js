@@ -197,7 +197,7 @@ function JobDetailPopup(props) {
                         </Grid>
                         <Grid item md={7} xs={7}>
                             <Typography gutterBottom>
-                                {new Date(job.pre_timestmp).toLocaleString()}
+                                {new Date(job.pre_timestmp).toLocaleString('en-GB')}
                             </Typography>
                         </Grid>
 
@@ -210,7 +210,7 @@ function JobDetailPopup(props) {
                                 </Grid>
                                 <Grid item md={7} xs={7}>
                                     <Typography gutterBottom>
-                                        {new Date(job.post_timestmp).toLocaleString()}
+                                        {new Date(job.post_timestmp).toLocaleString('en-GB')}
                                     </Typography>
                                 </Grid>
                             </Grid>
