@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function HomeWithSideBar(props) {
+function HomeWithSideBar() {
     const classes = useStyles();
     const history = createBrowserHistory({ forceRefresh: true });
     const currentUser = authenticationService.currentUserValue;

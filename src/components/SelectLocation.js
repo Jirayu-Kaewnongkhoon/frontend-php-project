@@ -81,7 +81,6 @@ function SelectLocation(props) {
 
     return (
         <div>
-            <h3 style={{textAlign: 'center'}}>SelectLocation</h3>
             <canvas
                 id="canvas"
                 width="900"
@@ -97,6 +96,9 @@ function SelectLocation(props) {
                 }}
             >
             </canvas>
+            <h5 style={{fontWeight: 'normal', textDecoration: 'underline', textAlign: 'center', fontStyle: 'italic'}} >
+                *คลิ๊กที่อาคารเพื่อเลือกตำแหน่งที่อยู่ของอุปกรณ์
+            </h5>
         </div>
     )
 }

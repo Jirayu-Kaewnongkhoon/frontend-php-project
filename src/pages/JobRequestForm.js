@@ -19,7 +19,7 @@ import SelectLocation from '../components/SelectLocation';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        paddingTop: theme.spacing(8),
+        paddingTop: theme.spacing(5),
         paddingBottom: theme.spacing(8),
     },
     form: {
@@ -160,18 +160,12 @@ function JobRequestForm() {
                 currentUser &&
                 <div className={classes.root} >
                     <Container maxWidth='md' >
-                        <Typography style={{textAlign: 'center'}} >Job Request Form</Typography>
                         <form className={classes.form} noValidate autoComplete="off" onSubmit={onSubmitClick} >
 
-                            <div className={classes.content} >
-                                <SelectLocation onChange={handleBuildingSelection} />
-                            </div>
+                            <SelectLocation onChange={handleBuildingSelection} />
 
                             <div className={classes.section} >
-                                <Typography 
-                                    variant='h6' 
-                                    className={classes.contentHeader} 
-                                >
+                                <Typography variant='h6' className={classes.contentHeader} >
                                     <InfoIcon color='primary'/>
                                     Place Information
                                 </Typography>
@@ -207,10 +201,7 @@ function JobRequestForm() {
                             <Divider />
 
                             <div className={classes.section} >
-                                <Typography 
-                                    variant='h6' 
-                                    className={classes.contentHeader} 
-                                >
+                                <Typography variant='h6' className={classes.contentHeader} >
                                     <PublishIcon color='primary'/>
                                     Upload Image
                                 </Typography>
@@ -223,10 +214,7 @@ function JobRequestForm() {
                             <Divider />
 
                             <div className={classes.section} >
-                                <Typography 
-                                    variant='h6' 
-                                    className={classes.contentHeader} 
-                                >
+                                <Typography variant='h6' className={classes.contentHeader} >
                                     <DescriptionIcon color='primary'/>
                                     Description
                                 </Typography>
