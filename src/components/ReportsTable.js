@@ -56,7 +56,7 @@ function ReportsTable(props) {
                     {row.description}
                 </TableCell>
                 <TableCell align="center">{row.building}</TableCell>
-                <TableCell align="right">{new Date(row.pre_timestmp).toLocaleString()}</TableCell>
+                <TableCell align="right">{new Date(row.pre_timestmp).toLocaleString('en-GB')}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -126,7 +126,7 @@ function ReportsTable(props) {
                                         </Grid>
                                         <Grid item md={8} xs={6}>
                                             <Typography gutterBottom component="div">
-                                                {new Date(row.post_timestmp).toLocaleString()}
+                                                {new Date(row.post_timestmp).toLocaleString('en-GB')}
                                             </Typography>
                                         </Grid>
                                     </Grid>

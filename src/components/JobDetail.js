@@ -55,7 +55,7 @@ function JobDetail(props) {
                         </Grid>
                         <Grid item md={9} xs={9}>
                             <Typography style={{ display: 'flex', fontSize: 18 }} >
-                                {new Date(job.pre_timestmp).toLocaleString()}
+                                {new Date(job.pre_timestmp).toLocaleString('en-GB')}
                             </Typography>
                         </Grid>
                     </Grid>
