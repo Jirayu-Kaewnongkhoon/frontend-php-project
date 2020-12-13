@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import logo from '../constants/Logo.png'
 
 const useStyles = makeStyles((theme) => ({
     cardGrid: {
@@ -29,10 +30,7 @@ function About() {
         <div>
             <Container className={classes.cardGrid} maxWidth='md'>
                 <div className={classes.logo}>
-                    <img src="" alt="logo"/>
-                    <Typography gutterBottom variant='h3'>
-                        Fix Me
-                    </Typography>
+                    <img src={logo} alt="logo" width='500px' />
                     <Typography variant='h6'>
                         {`Version: 1.0.0`}
                     </Typography>
