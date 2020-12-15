@@ -9,6 +9,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import PublishIcon from '@material-ui/icons/Publish';
 import swal from 'sweetalert';
 import { createBrowserHistory } from 'history';
 import { jobService } from '../services/jobService';
@@ -153,12 +154,25 @@ function UpdateStatus({ match }) {
                                     <MenuItem value={'JSID05'}>เสร็จสิ้น</MenuItem>
                                 </Select>
                             </FormControl>
-                            {
-                                status && status === 'JSID05' &&
-                                <ImageUpload onChange={handleUpload} onRemove={handleResetUpload} />
-                            }
                         </div>
                     </div>
+
+                    {
+                        status && status === 'JSID05' &&
+                        <div>
+                            <Divider />
+
+                            <div className={classes.section} >
+                                <Typography variant='h6' className={classes.contentHeader} >
+                                    <PublishIcon color='primary'/>
+                                    Upload Result Image
+                                </Typography>
+                                <div className={classes.content}>
+                                    <ImageUpload onChange={handleUpload} onRemove={handleResetUpload} />
+                                </div>
+                            </div>
+                        </div>
+                    }
 
                     <div className={classes.content}>
                         <Button
