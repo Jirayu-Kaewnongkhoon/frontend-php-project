@@ -14,7 +14,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Avatar from '@material-ui/core/Avatar';
 import { authenticationService } from '../services/authenticationService';
 import { createBrowserHistory } from 'history';
-import { primaryMenu, secondaryMenu } from '../constants/menu';
+import { allMenu } from '../constants/menu';
 import { Link } from 'react-router-dom';
 
 
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HomeWithSideBar() {
+    
     const classes = useStyles();
     const history = createBrowserHistory({ forceRefresh: true });
     const currentUser = authenticationService.currentUserValue;
@@ -46,14 +47,8 @@ function HomeWithSideBar() {
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
-        primaryMenu.forEach(menu => {
-            if (window.location.pathname === `/${menu.url}`) {
-                setSelectedMenu(menu.label)
-            }
-        })
-        
-        secondaryMenu.forEach(menu => {
-            if (window.location.pathname === `/${menu.url}`) {
+        allMenu.forEach(menu => {
+            if (window.location.pathname === `/${menu.url}` && menu.isPrimary) {
                 setSelectedMenu(menu.label)
             }
         })
@@ -82,7 +77,7 @@ function HomeWithSideBar() {
             onKeyDown={toggleDrawer(false)}
         >
             <List>
-                {primaryMenu.filter(menu => menu.role.includes(currentUser.role_name)).map(menu => (
+                {allMenu.filter(menu => menu.role.includes(currentUser.role_name) && menu.isPrimary).map(menu => (
                     <Link key={menu.url} to={`/${menu.url}`} className={classes.link} >
                         <ListItem button onClick={() => setSelectedMenu(menu.label)} >
                             <ListItemIcon>{menu.icon}</ListItemIcon>
@@ -93,7 +88,7 @@ function HomeWithSideBar() {
             </List>
             <Divider />
             <List>
-                {secondaryMenu.map(menu => (
+                {allMenu.filter(menu => menu.role.includes(currentUser.role_name) && !menu.isPrimary).map(menu => (
                     <Link key={menu.url} to={`/${menu.url}`} className={classes.link} onClick={() => onLogoutClick(menu.label)} >
                         <ListItem button onClick={() => setSelectedMenu(menu.label)} >
                             <ListItemIcon>{menu.icon}</ListItemIcon>
