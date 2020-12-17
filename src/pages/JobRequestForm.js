@@ -96,14 +96,7 @@ function JobRequestForm() {
                 button: "Accept",
             })
         } else {
-            jobService.createJobRequest(
-                currentUser.user_id, 
-                jobRequest.buildingName, 
-                jobRequest.floor, 
-                jobRequest.room, 
-                jobRequest.description, 
-                jobRequest.image
-            )
+            jobService.createJobRequest(currentUser.user_id, buildingName, floor, room, description, image)
                 .then(
                     res => {
                         console.log(res?.[0].message);
@@ -156,96 +149,93 @@ function JobRequestForm() {
 
     return (
         <div>
-            {
-                currentUser &&
-                <div className={classes.root} >
-                    <Container maxWidth='md' >
-                        <form className={classes.form} noValidate autoComplete="off" onSubmit={onSubmitClick} >
+            <div className={classes.root} >
+                <Container maxWidth='md' >
+                    <form className={classes.form} noValidate autoComplete="off" onSubmit={onSubmitClick} >
 
-                            <SelectLocation onChange={handleBuildingSelection} />
+                        <SelectLocation onChange={handleBuildingSelection} />
 
-                            <div className={classes.section} >
-                                <Typography variant='h6' className={classes.contentHeader} >
-                                    <InfoIcon color='primary'/>
-                                    Place Information
-                                </Typography>
+                        <div className={classes.section} >
+                            <Typography variant='h6' className={classes.contentHeader} >
+                                <InfoIcon color='primary'/>
+                                Place Information
+                            </Typography>
 
-                                <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                                    <TextField
-                                        required
-                                        label="Building"
-                                        variant="outlined"
-                                        name='buildingName'
-                                        value={jobRequest.buildingName}
-                                        onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
-                                    />
-                                
-                                    <TextField
-                                        required
-                                        label="Room"
-                                        variant="outlined"
-                                        name='room'
-                                        onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
-                                    />
+                            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                                <TextField
+                                    required
+                                    label="Building"
+                                    variant="outlined"
+                                    name='buildingName'
+                                    value={jobRequest.buildingName}
+                                    onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                                />
+                            
+                                <TextField
+                                    required
+                                    label="Room"
+                                    variant="outlined"
+                                    name='room'
+                                    onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                                />
 
-                                    <TextField
-                                        required
-                                        label="Floor"
-                                        variant="outlined"
-                                        name='floor'
-                                        onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
-                                    />
-                                </div>
+                                <TextField
+                                    required
+                                    label="Floor"
+                                    variant="outlined"
+                                    name='floor'
+                                    onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })}
+                                />
                             </div>
+                        </div>
 
-                            <Divider />
+                        <Divider />
 
-                            <div className={classes.section} >
-                                <Typography variant='h6' className={classes.contentHeader} >
-                                    <PublishIcon color='primary'/>
-                                    Upload Image
-                                </Typography>
-
-                                <div className={classes.content} >
-                                    <ImageUpload onChange={handleUpload} onRemove={handleResetUpload} />
-                                </div>
-                            </div>
-
-                            <Divider />
-
-                            <div className={classes.section} >
-                                <Typography variant='h6' className={classes.contentHeader} >
-                                    <DescriptionIcon color='primary'/>
-                                    Description
-                                </Typography>
-
-                                <div className={classes.content} >
-                                    <TextareaAutosize
-                                        name="description" 
-                                        aria-label="description" 
-                                        rowsMin={8}
-                                        placeholder="Description..." 
-                                        className={classes.inputDetail}
-                                        onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} 
-                                    />
-                                </div>
-                            </div>
+                        <div className={classes.section} >
+                            <Typography variant='h6' className={classes.contentHeader} >
+                                <PublishIcon color='primary'/>
+                                Upload Image
+                            </Typography>
 
                             <div className={classes.content} >
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                >
-                                    Submit
-                                </Button>
+                                <ImageUpload onChange={handleUpload} onRemove={handleResetUpload} />
                             </div>
+                        </div>
 
-                        </form>
-                    </Container>
-                </div>
-            }
+                        <Divider />
+
+                        <div className={classes.section} >
+                            <Typography variant='h6' className={classes.contentHeader} >
+                                <DescriptionIcon color='primary'/>
+                                Description
+                            </Typography>
+
+                            <div className={classes.content} >
+                                <TextareaAutosize
+                                    name="description" 
+                                    aria-label="description" 
+                                    rowsMin={8}
+                                    placeholder="Description..." 
+                                    className={classes.inputDetail}
+                                    onChange={e => setJobRequest({ ...jobRequest, [e.target.name]: e.target.value })} 
+                                />
+                            </div>
+                        </div>
+
+                        <div className={classes.content} >
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Submit
+                            </Button>
+                        </div>
+
+                    </form>
+                </Container>
+            </div>
         </div>
     )
 }
