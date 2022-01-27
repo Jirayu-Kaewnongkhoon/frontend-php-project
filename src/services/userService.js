@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const url = "https://database-php-project.000webhostapp.com"
-const url = "http://localhost/backend-php-project"
+const url = "https://backend-php-project.000webhostapp.com"
+// const url = "http://localhost/backend-php-project"
 
 export const userService = {
     getStaff,
