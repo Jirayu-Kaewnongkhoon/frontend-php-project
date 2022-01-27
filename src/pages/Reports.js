@@ -72,7 +72,14 @@ function Reports() {
 
     const handleDownloadClick = () => {
         jobService.getReportsPDF(month, authenticationService.currentUserValue.user_name)
-            .then(res => console.log(res))
+            .then(res => {
+                const url = window.URL.createObjectURL(new Blob([res]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'Reports ' + new Date().toLocaleString('en-GB') + '.pdf');
+                document.body.appendChild(link);
+                link.click();
+            })
             .catch(err => console.log(err))
     }
 
