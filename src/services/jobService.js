@@ -113,7 +113,7 @@ function getLocationImage() {
 }
 
 function getReportsPDF(month, user_name) {
-    return axios.get(`${url}/api/JobServices/getReportsPDF.php?month=${month}&user_name=${user_name}`)
+    return axios.get(`${url}/api/JobServices/getReportsPDF.php?month=${month}&user_name=${user_name}`, { responseType: 'arraybuffer' })
         .then(response => {
             console.log("getReportsPDF => ", response);
             return response.data
